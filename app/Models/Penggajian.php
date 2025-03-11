@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Karyawan extends Model
+class Penggajian extends Model
 {
     use HasFactory;
 
     /**
-     * Get the user that owns the Karyawan
+     * Get the karyawan that owns the Karyawan
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('karyawan_id')->nullable()->default(null);
+            $table->unsignedInteger('user_id')->nullable()->default(null);
             $table->unsignedInteger('assigned_by')->nullable()->default(null);
             $table->string('tgl')->nullable()->default(null);
             $table->string('jam_masuk')->nullable()->default(null);

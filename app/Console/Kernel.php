@@ -13,6 +13,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('php artisan db:seed --class=AbsensiSeeder')
+            ->timezone('Asia/Jakarta')
+            ->dailyAt('00:01');
     }
 
     /**
