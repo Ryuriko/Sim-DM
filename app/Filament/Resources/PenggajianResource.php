@@ -4,12 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PenggajianResource\Pages;
 use App\Filament\Resources\PenggajianResource\RelationManagers;
+use App\Http\Services\PenggajianService;
 use App\Models\Penggajian;
 use App\Models\User;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
@@ -23,6 +25,10 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Session;
+use Filament\Infolists\Components\Tabs;
+use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
 
 class PenggajianResource extends Resource
 {
@@ -179,6 +185,29 @@ class PenggajianResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     // Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                Action::make('Sync')
+                    ->action(function() {
+                        $tahun = Session::get('filteredTahun');
+                        $bulan = Session::get('filteredBulan');
+
+                        $opr = PenggajianService::summarize($tahun, $bulan);
+                        // dd($opr);
+                        if($opr['status'] == true) {
+                            Notification::make()
+                                ->title('Sync Successfully')
+                                ->success()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Sync Failed')
+                                ->danger()
+                                ->body($opr['message'])
+                                ->send();
+
+                        }
+                    })
             ]);
     }
 
