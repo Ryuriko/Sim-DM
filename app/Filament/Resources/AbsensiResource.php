@@ -59,7 +59,7 @@ class AbsensiResource extends Resource
                     $query->where('tgl', $date); 
             }))
             ->columns([
-                TextColumn::make('nama'),
+                TextColumn::make('name'),
                 TextColumn::make('absensis.jam_masuk')
                     ->label('Jam Masuk')
                     ->time(),
@@ -74,9 +74,6 @@ class AbsensiResource extends Resource
                         'sakit' => 'warning',
                         'izin' => 'gray',
                         'alpha' => 'danger',
-                    })
-                    ->formatStateUsing(function ($record) {
-                        return $record->absensis->first()->status;
                     })
             ])
             ->filters([
@@ -108,7 +105,7 @@ class AbsensiResource extends Resource
                         $date = Session::get('filteredDate') ?? Carbon::now()->toDateString();
                         $absensi = Absensi::where('user_id', $data['id'])->where('tgl', $date)->first();
 
-                        Session::put('user_id', $data['user_id']);
+                        Session::put('user_id', $data['id']);
                         Session::put('data_id', $absensi['id']);
 
                         $data['jam_masuk'] = $absensi['jam_masuk'];
@@ -131,7 +128,7 @@ class AbsensiResource extends Resource
                             'status' => $data['status']
                         ];
 
-                        if($arr['status'] == 'alpha') {
+                        if($arr['status'] == 'alpha' || $arr['status'] == 'izin' || $arr['status'] == 'sakit') {
                             $arr = array_merge($arr , ['jam_masuk' => '', 'jam_keluar' => '']);
                         }
                         

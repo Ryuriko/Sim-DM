@@ -15,7 +15,7 @@ class AbsensiSeeder extends Seeder
      */
     public function run(): void
     {
-        $date = Carbon::now()->addDay(2)->toDateString();
+        $date = Carbon::now()->toDateString();
 
         $karyawans = User::whereDoesntHave('role', function($query) {
             $query->where('name', 'sistem');

@@ -4,11 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Absensi;
+use App\Models\Penggajian;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
@@ -75,5 +76,15 @@ class User extends Authenticatable
     public function assigned_absensis()
     {
         return $this->hasMany(Absensi::class, 'assigned_by', 'id');
+    }
+
+    /**
+     * Get all of the penggajians for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function penggajians()
+    {
+        return $this->hasMany(Penggajian::class, 'user_id', 'id');
     }
 }

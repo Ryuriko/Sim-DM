@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('user_id')->nullable()->default(null);
             $table->string('bulan')->nullable()->default(null);
-            $table->string('gaji_pokok')->nullable()->default(null);
-            $table->string('bonus')->nullable()->default(null);
-            $table->string('potongan')->nullable()->default(null);
-            $table->string('gaji_total')->nullable()->default(null);
+            $table->string('tahun')->nullable()->default(null);
+            $table->string('gaji_pokok')->nullable()->default(0);
+            $table->string('bonus')->nullable()->default(0);
+            $table->string('potongan')->nullable()->default(0);
+            $table->string('gaji_total')->nullable()->default(0);
+            $table->string('ket')->nullable()->default(null);
             $table->timestamps();
 
             $table->index('user_id');
