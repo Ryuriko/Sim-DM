@@ -2,39 +2,45 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PenggajianResource\Pages;
-use App\Filament\Resources\PenggajianResource\RelationManagers;
-use App\Http\Services\PenggajianService;
-use App\Models\Penggajian;
-use App\Models\User;
 use Carbon\Carbon;
-use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs\Tab;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\Filter;
+use Filament\Forms\Form;
+use App\Models\Penggajian;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Session;
-use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Infolist;
-use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
+use App\Models\SettingPenggajian;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\Filter;
+use Filament\Forms\Components\Select;
+use Filament\Resources\Components\Tab;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Session;
+use App\Http\Services\PenggajianService;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Tables\Enums\FiltersLayout;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\TextEntry;
+use App\Filament\Resources\PenggajianResource\Pages;
 
 class PenggajianResource extends Resource
 {
     protected static ?string $model = Penggajian::class;
 
+    // protected static string $view = 'filament.resources.penggajian-resource.pages.setting-penggajians';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public function getTabs(): array
+    {
+        return [
+            'data' => Tab::make('Data'),
+            'setting' => Tab::make('Setting')
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -62,8 +68,9 @@ class PenggajianResource extends Resource
                     $query->where('name', 'sistem');
                 })
                 ->with('penggajians', function($query) {
-                    $tahun = Session::get('filteredTahun') ?? Carbon::now()->locale('id')->translatedFormat('F');
+                    $tahun = Session::get('filteredTahun') ?? Carbon::now()->year;
                     $bulan = Session::get('filteredBulan') ?? Carbon::now()->locale('id')->translatedFormat('F');
+
                     $query->where('tahun', $tahun)->where('bulan', $bulan); 
                 })
             )
@@ -193,7 +200,7 @@ class PenggajianResource extends Resource
                         $bulan = Session::get('filteredBulan');
 
                         $opr = PenggajianService::summarize($tahun, $bulan);
-                        // dd($opr);
+
                         if($opr['status'] == true) {
                             Notification::make()
                                 ->title('Sync Successfully')
@@ -205,7 +212,6 @@ class PenggajianResource extends Resource
                                 ->danger()
                                 ->body($opr['message'])
                                 ->send();
-
                         }
                     })
             ]);
@@ -225,5 +231,17 @@ class PenggajianResource extends Resource
             // 'create' => Pages\CreatePenggajian::route('/create'),
             // 'edit' => Pages\EditPenggajian::route('/{record}/edit'),
         ];
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->record(
+                SettingPenggajian::first()
+            )
+            ->schema([
+                TextEntry::make('potongan_alpha'),
+                TextEntry::make('potongan_cuti')
+            ]);
     }
 }

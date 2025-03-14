@@ -30,8 +30,9 @@ class PenggajianJob implements ShouldQueue
     {
         try {
             $opr = PenggajianService::summarize($this->bulan, $this->tahun);
+            Log::debug($opr);
         } catch (\Throwable $th) {
-            Log::debug($th->getMessage());
+            Log::error($th->getMessage());
         }
     }
 }
