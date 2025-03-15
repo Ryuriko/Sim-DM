@@ -55,5 +55,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->favicon(asset('image/dm-tirta-logo.png'));
+            // ->brandLogo(asset('image/dm-tirta-logo.png'));
     }
 }

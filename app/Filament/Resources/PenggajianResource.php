@@ -36,7 +36,13 @@ class PenggajianResource extends Resource
 
     protected static ?string $navigationLabel = 'Penggajian';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-m-users';
+
+    protected static ?string $navigationGroup = 'Karyawan';
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
