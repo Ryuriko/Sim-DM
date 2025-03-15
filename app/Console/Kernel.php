@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Jobs\PenggajianJob;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,7 +14,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Absensi Tiap Hari
+        $schedule->command('php artisan db:seed --class=AbsensiSeeder')
+            ->timezone('Asia/Jakarta')
+            ->dailyAt('00:01');
+        
+        // Summarize Penggajian Tiap Bulan
+        $tahun = Carbon::now()->year;
+        $bulan = Carbon::now()->locale('id')->translatedFormat('F');
+        $schedule->job(new PenggajianJob($tahun, $bulan))
+            ->monthlyOn(25, '19:00')
+            ->timezone('Asia/Jakarta');
     }
 
     /**
