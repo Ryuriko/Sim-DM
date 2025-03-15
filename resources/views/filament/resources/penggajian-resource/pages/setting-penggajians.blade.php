@@ -15,9 +15,11 @@
       </x-filament::tabs.item>
    </x-filament::tabs>
 
-   @if ($this->activeTab == 'data')
+   @if ($this->activeTab == 'data' || $this->activeTab != 'setting')
       {{ $this->table }}
    @elseif ($this->activeTab == 'setting')
-      {{ $this->infolist }}
+      @livewire('salary-role-penggajian')
+      <br>
+      @livewire('setting-penggajian')
    @endif
 </x-filament-panels::page>

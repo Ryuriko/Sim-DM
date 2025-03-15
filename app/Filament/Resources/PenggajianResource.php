@@ -30,17 +30,13 @@ class PenggajianResource extends Resource
 {
     protected static ?string $model = Penggajian::class;
 
-    // protected static string $view = 'filament.resources.penggajian-resource.pages.setting-penggajians';
+    protected static ?string $pluralModelLabel = 'Penggajian';
+
+    protected static ?string $modelLabel = 'Penggajian';
+
+    protected static ?string $navigationLabel = 'Penggajian';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public function getTabs(): array
-    {
-        return [
-            'data' => Tab::make('Data'),
-            'setting' => Tab::make('Setting')
-        ];
-    }
 
     public static function form(Form $form): Form
     {
@@ -233,15 +229,4 @@ class PenggajianResource extends Resource
         ];
     }
 
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->record(
-                SettingPenggajian::first()
-            )
-            ->schema([
-                TextEntry::make('potongan_alpha'),
-                TextEntry::make('potongan_cuti')
-            ]);
-    }
 }
