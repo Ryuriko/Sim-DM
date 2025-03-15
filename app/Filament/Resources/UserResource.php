@@ -82,6 +82,7 @@ class UserResource extends Resource
                     ->label('NIK'),
                 TextColumn::make('status')
                     ->label('Status')
+                    ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'aktif' => 'success',

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Cuti;
 use App\Models\Absensi;
 use App\Models\Penggajian;
 use Laravel\Sanctum\HasApiTokens;
@@ -86,5 +87,15 @@ class User extends Authenticatable
     public function penggajians()
     {
         return $this->hasMany(Penggajian::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the cutis for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cutis()
+    {
+        return $this->hasMany(Cuti::class, 'user_id', 'id');
     }
 }
