@@ -73,6 +73,10 @@ class PenggajianResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->label('Nama'),
+                TextColumn::make('role.name')
+                    ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
+                    ->color('gray')
+                    ->label('Jabatan'),
                 TextColumn::make('penggajians.bulan')
                     ->label('Bulan'),
                 TextColumn::make('penggajians.tahun')
