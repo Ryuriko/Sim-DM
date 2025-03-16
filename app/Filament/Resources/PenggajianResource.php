@@ -104,7 +104,6 @@ class PenggajianResource extends Resource
                 TextColumn::make('penggajians.ket')
                     ->label('Keterangan')
                     ->words(5)
-                    ->lineClamp(3)
                 
             ])
             ->filters([

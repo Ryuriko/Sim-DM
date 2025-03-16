@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('kontak', 100)->nullable()->default(null);
             $table->string('alamat', 100)->nullable()->default(null);
             $table->string('kota', 100)->nullable()->default(null);
+            $table->string('ket')->nullable()->default(null);
             $table->timestamps();
         });
     }

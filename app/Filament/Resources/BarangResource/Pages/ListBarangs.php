@@ -10,10 +10,14 @@ class ListBarangs extends ListRecords
 {
     protected static string $resource = BarangResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
+    protected static string $view = 'filament.resources.barang-resource.pages.kategori-barangs';
+
+    public ?string $activeTab = 'data';
+
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+    //         Actions\CreateAction::make(),
+    //     ];
+    // }
 }

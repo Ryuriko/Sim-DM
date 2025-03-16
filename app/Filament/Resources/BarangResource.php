@@ -5,10 +5,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BarangResource\Pages;
 use App\Filament\Resources\BarangResource\RelationManagers;
 use App\Models\Barang;
+use App\Models\KategoriBarang;
+use App\Models\Supplier;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -35,7 +38,41 @@ class BarangResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('kode')
+                    // ->default()
+                    ->unique()
+                    ->required(),
+                Forms\Components\TextInput::make('nama')
+                    ->required(),
+                Forms\Components\Select::make('kategori_id')
+                    ->label('Kategori')
+                    ->options(KategoriBarang::pluck('nama', 'id'))
+                    ->required(),
+                Forms\Components\TextInput::make('merk')
+                    ->required(),
+                Forms\Components\TextInput::make('satuan')
+                    ->numeric()
+                    ->required(),
+                Forms\Components\TextInput::make('harga_beli')
+                    ->label('Harga Beli')
+                    ->required(),
+                Forms\Components\TextInput::make('harga_jual')
+                    ->label('Harga Jual')
+                    ->required(),
+                Forms\Components\Select::make('supplier_id')
+                    ->label('Supplier')
+                    ->options(Supplier::pluck('nama', 'id'))
+                    ->required(),
+                Forms\Components\TextInput::make('lokasi')
+                    ->required(),
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'aktif' => 'Aktif',
+                        'tidak aktif' => 'Tidak Aktif',
+                    ])
+                    ->required(),
+                Forms\Components\TextArea::make('ket')
+                    ->label('Keterangan'),
             ]);
     }
 
@@ -43,13 +80,42 @@ class BarangResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('kode'),
+                Tables\Columns\TextColumn::make('nama'),
+                Tables\Columns\TextColumn::make('kategori.nama'),
+                Tables\Columns\TextColumn::make('merk'),
+                Tables\Columns\TextColumn::make('stok')
+                    ->numeric(),
+                Tables\Columns\TextColumn::make('satuan')
+                    ->numeric(),
+                Tables\Columns\TextColumn::make('harga_beli')
+                    ->money('Rp.')
+                    ->numeric(),
+                Tables\Columns\TextColumn::make('harga_jual')
+                    ->money('Rp.')
+                    ->numeric(),
+                Tables\Columns\TextColumn::make('supplier.nama'),
+                Tables\Columns\TextColumn::make('lokasi'),
+                Tables\Columns\TextColumn::make('status')                
+                    ->label('Status')
+                    ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'aktif' => 'success',
+                        'tidak aktif' => 'danger',
+                    }),
+                Tables\Columns\TextColumn::make('ket')
+                    ->words(5),
+
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            ])
+            ->headerActions([
+                CreateAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
