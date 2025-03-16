@@ -54,7 +54,11 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->favicon(asset('image/dm-tirta-logo.png'));
-            // ->brandLogo(asset('image/dm-tirta-logo.png'));
+            ->favicon(asset('image/dm-tirta-logo.png'))
+            ->navigationGroups([
+                'Web',
+                'Karyawan',
+                'Inventory',
+            ]);
     }
 }
