@@ -40,7 +40,7 @@ class BarangResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('kode')
                     // ->default()
-                    ->unique()
+                    ->unique(ignoreRecord: true)
                     ->required(),
                 Forms\Components\TextInput::make('nama')
                     ->required(),
@@ -50,21 +50,28 @@ class BarangResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('merk')
                     ->required(),
-                Forms\Components\TextInput::make('satuan')
+                Forms\Components\TextInput::make('stok')
                     ->numeric()
+                    ->required(),
+                Forms\Components\Select::make('satuan')
+                    ->options([
+                        'pcs' => 'pcs',
+                        'box' => 'box',
+                        'liter' => 'liter',
+                        'kg' => 'kg',
+                    ])
                     ->required(),
                 Forms\Components\TextInput::make('harga_beli')
                     ->label('Harga Beli')
                     ->required(),
                 Forms\Components\TextInput::make('harga_jual')
-                    ->label('Harga Jual')
-                    ->required(),
+                    ->label('Harga Jual'),
                 Forms\Components\Select::make('supplier_id')
                     ->label('Supplier')
                     ->options(Supplier::pluck('nama', 'id'))
                     ->required(),
                 Forms\Components\TextInput::make('lokasi')
-                    ->required(),
+                    ->label('Lokasi Barang'),
                 Forms\Components\Select::make('status')
                     ->options([
                         'aktif' => 'Aktif',
@@ -85,6 +92,8 @@ class BarangResource extends Resource
                 Tables\Columns\TextColumn::make('kategori.nama'),
                 Tables\Columns\TextColumn::make('merk'),
                 Tables\Columns\TextColumn::make('stok')
+                    ->badge()
+                    ->color('gray')
                     ->numeric(),
                 Tables\Columns\TextColumn::make('satuan')
                     ->numeric(),
