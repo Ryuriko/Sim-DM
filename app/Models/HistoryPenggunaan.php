@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Barang;
+use App\Models\HistoryPenggunaanDetail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -12,12 +14,12 @@ class HistoryPenggunaan extends Model
     use HasFactory;
 
     /**
-     * Get the barang that owns the HistoryPembelian
+     * Get all of the detail for the HistoryPenggunaan
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function barang()
+    public function detail()
     {
-        return $this->belongsTo(Barang::class, 'barang_id', 'id');
+        return $this->hasMany(HistoryPenggunaanDetail::class, 'penggunaan_id', 'id');
     }
 }

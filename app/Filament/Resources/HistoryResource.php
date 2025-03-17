@@ -20,11 +20,11 @@ class HistoryResource extends Resource
 {
     protected static ?string $model = HistoryPenggunaan::class;
 
-    protected static ?string $pluralModelLabel = 'History';
+    protected static ?string $pluralModelLabel = 'Transaksi';
 
-    protected static ?string $modelLabel = 'History';
+    protected static ?string $modelLabel = 'Transaksi';
 
-    protected static ?string $navigationLabel = 'History';
+    protected static ?string $navigationLabel = 'Transaksi';
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
@@ -40,13 +40,12 @@ class HistoryResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('kode')
                     ->required(),
-                Forms\Components\Select::make('barang_id')
-                    ->options(Barang::pluck('nama', 'id'))
-                    ->required(),
-                Forms\Components\TextInput::make('jumlah')
-                    ->required(),
                 Forms\Components\DateTimePicker::make('tgl')
                     ->label('Tanggal')
+                    ->required(),
+                Forms\Components\TextInput::make('total_barang')
+                    ->label('Total Barang')
+                    ->numeric()
                     ->required(),
                 Forms\Components\TextArea::make('ket')
                     ->label('Keterangan')
@@ -58,11 +57,10 @@ class HistoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('kode'),
-                Tables\Columns\TextColumn::make('barang.nama')
-                    ->label('Barang'),
-                Tables\Columns\TextColumn::make('Jumlah'),
                 Tables\Columns\TextColumn::make('tgl')
                     ->label('Tanggal'),
+                Tables\Columns\TextColumn::make('total_barang')
+                    ->label('Total Barang'),
                 Tables\Columns\TextColumn::make('ket')
                     ->label('Keterangan'),
             ])

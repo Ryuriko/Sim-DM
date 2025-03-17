@@ -98,8 +98,7 @@ class BarangResource extends Resource
                 Tables\Columns\TextColumn::make('satuan')
                     ->numeric(),
                 Tables\Columns\TextColumn::make('harga_beli')
-                    ->money('Rp.')
-                    ->numeric(),
+                    ->money('Rp.'),
                 Tables\Columns\TextColumn::make('harga_jual')
                     ->money('Rp.')
                     ->numeric(),
