@@ -64,7 +64,7 @@ class KategoriBarang extends Component implements HasForms, HasTable
                         TextInput::make('nama')
                             ->required(),
                         TextInput::make('ket')
-                            ->label('Keterangan')
+                            ->label('Keterangan'),
                     ])
             ])
             ->bulkActions([
@@ -76,6 +76,6 @@ class KategoriBarang extends Component implements HasForms, HasTable
     
     public function render()
     {
-        return view('livewire.kategori-barang');
+        return view('filament.resources.history-resource.pages.history-pembelian-details');
     }
 }

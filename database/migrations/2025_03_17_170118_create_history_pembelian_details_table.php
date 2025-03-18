@@ -16,9 +16,9 @@ return new class extends Migration
             $table->unsignedInteger('pembelian_id')->nullable()->default(null);
             $table->unsignedInteger('barang_id')->nullable()->default(null);
             $table->unsignedInteger('supplier_id')->nullable()->default(null);
-            $table->string('jumlah', 100)->nullable()->default(null);
-            $table->string('harga_satuan', 100)->nullable()->default(null);
-            $table->string('subtotal', 100)->nullable()->default(null);
+            $table->string('jumlah', 100)->nullable()->default(0);
+            $table->string('harga_satuan', 100)->nullable()->default(0);
+            $table->string('subtotal', 100)->nullable()->default(0);
             $table->timestamps();
 
             $table->index('pembelian_id');

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('penggunaan_id')->nullable()->default(null);
             $table->unsignedInteger('barang_id')->nullable()->default(null);
-            $table->string('jumlah', 100)->nullable()->default(null);
+            $table->string('jumlah', 100)->nullable()->default(0);
             $table->timestamps();
 
             $table->index('penggunaan_id');

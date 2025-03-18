@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Models\HistoryPenggunaan;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\HistoryResource\Pages;
@@ -58,7 +59,8 @@ class HistoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('kode'),
                 Tables\Columns\TextColumn::make('tgl')
-                    ->label('Tanggal'),
+                    ->label('Tanggal')
+                    ->date(),
                 Tables\Columns\TextColumn::make('total_barang')
                     ->label('Total Barang'),
                 Tables\Columns\TextColumn::make('ket')
@@ -68,6 +70,9 @@ class HistoryResource extends Resource
                 //
             ])
             ->actions([
+                Action::make('detail')
+                    ->icon('heroicon-o-list-bullet')
+                    ->url(fn ($record): string => route('filament.admin.resources.histories.penggunaan.detail', ['record' => $record])),
                 Tables\Actions\EditAction::make(),
             ])
             ->headerActions([
@@ -92,6 +97,8 @@ class HistoryResource extends Resource
     {
         return [
             'index' => Pages\ListHistories::route('/'),
+            'pembelian.detail' => Pages\HistoryPembelianDetails::route('/{record}/pembelian'),
+            'penggunaan.detail' => Pages\HistoryPenggunaanDetails::route('/{record}/penggunaan'),
             // 'create' => Pages\CreateHistory::route('/create'),
             // 'edit' => Pages\EditHistory::route('/{record}/edit'),
         ];

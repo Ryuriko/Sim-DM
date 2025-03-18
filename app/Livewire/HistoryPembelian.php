@@ -9,6 +9,7 @@ use App\Models\Supplier;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Grid;
+use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\EditAction;
@@ -29,7 +30,6 @@ class HistoryPembelian extends Component implements HasForms, HasTable
 {
     use InteractsWithTable;
     use InteractsWithForms;
-
     
     public $data = [
         'kode' => '',
@@ -51,7 +51,7 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                 TextColumn::make('kode'),
                 TextColumn::make('tgl')
                     ->label('Tanggal')
-                    ->dateTime(),
+                    ->date(),
                 TextColumn::make('harga_total')
                     ->label('Harga Total')
                     ->money('Rp.'),
@@ -67,6 +67,9 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                 //
             ])
             ->actions([
+                Action::make('detail')
+                    ->icon('heroicon-o-list-bullet')
+                    ->url(fn ($record): string => route('filament.admin.resources.histories.pembelian.detail', ['record' => $record])),
                 EditAction::make()
                     ->form([
                         Grid::make()
