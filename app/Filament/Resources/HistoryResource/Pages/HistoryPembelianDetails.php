@@ -6,6 +6,8 @@ use App\Models\Barang;
 use App\Helpers\Helper;
 use App\Models\Supplier;
 use Filament\Tables\Table;
+use Illuminate\Http\Request;
+use App\Models\HistoryPembelian;
 use Filament\Resources\Pages\Page;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -14,16 +16,16 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Illuminate\Support\Facades\Session;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use App\Filament\Resources\HistoryResource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Notifications\Notification;
 use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 
 class HistoryPembelianDetails extends Page implements HasForms, HasTable
 {
@@ -33,7 +35,6 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
 
     use InteractsWithTable;
     use InteractsWithForms;
-    use InteractsWithRecord;
     
     public $data = [
         'pembelian_id' => '',
@@ -43,10 +44,14 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
         'harga_satuan' => '',
         'subtotal' => '',
     ];
+    
+    public static $record;
 
-    public function mount(int | string $record)
+    public function mount(Request $request)
     {
-        $this->record = $this->resolveRecord($record);
+        $id = $request->route('record');
+        self::$record = HistoryPembelian::find($id);
+        Session::put('id', $id);
         $this->form->fill($this->data);
     }
 
@@ -54,8 +59,8 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
     {
         return $table
             ->query(HistoryPembelianDetail::query())
-            ->modifyQueryUsing(function ($query, $livewire) {
-                return $query->where('pembelian_id', $livewire->record->id);
+            ->modifyQueryUsing(function ($query) {
+                return $query->where('pembelian_id', self::$record->id);
             })
             ->columns([
                 TextColumn::make('barang.nama')
@@ -105,8 +110,8 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
                  
                         return $data;
                     })
-                    ->mutateFormDataUsing(function (EditAction $action, $record, array $data, $livewire): array {
-                        $id = $livewire->record->id;
+                    ->mutateFormDataUsing(function (EditAction $action, $record, array $data): array {
+                        $id = self::$record->id;
                         $data['jumlah_before'] = $record['jumlah'];
                         $data['subtotal_before'] = $record['subtotal'];
                         $result = Helper::updateStok($id, $data, 'edit');
@@ -129,8 +134,8 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
     
                     }),
                 DeleteAction::make()
-                    ->before(function ($record, $livewire) {
-                        $result = Helper::updateStok($livewire->record->id, $record, 'sub');
+                    ->before(function ($record) {
+                        $result = Helper::updateStok(self::$record->id, $record, 'sub');
                         if($result['status'] == false) {
                             Notification::make()
                                 ->title('Failed')
@@ -169,8 +174,8 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
                                     ->required(),
                         ])
                 ])
-                ->mutateFormDataUsing(function (CreateAction $action, array $data, $livewire): array {
-                    $id = $livewire->record->id;
+                ->mutateFormDataUsing(function (CreateAction $action, array $data): array {
+                    $id = Session::get('id');
                     $result = Helper::updateStok($id, $data, 'add');
                     if($result['status'] == false) {
                         Notification::make()
