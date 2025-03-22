@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Barang;
+use App\Helpers\Helper;
 use Filament\Forms\Set;
 use Livewire\Component;
 use App\Models\Supplier;
@@ -11,7 +12,9 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Select;
+use App\Models\HistoryPembelianDetail;
 use Filament\Forms\Contracts\HasForms;
+use App\Models\HistoryPenggunaanDetail;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
@@ -75,6 +78,7 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                         Grid::make()
                         ->schema([
                             TextInput::make('kode')
+                                ->unique(ignoreRecord: true)
                                 ->required(),
                             DateTimePicker::make('tgl')
                                 ->label('Tanggal')
@@ -87,7 +91,23 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                                 ->required(),
                         ])
                     ]),
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->before(function ($record) {
+                        try {
+                            $details = HistoryPembelianDetail::where('pembelian_id', $record->id)->get();
+                            
+                            foreach ($details as $detail) {
+                                $result = Helper::updateStok($record->id, $detail, 'sub');
+                                $detail->delete();
+                            }
+                        } catch (\Throwable $th) {
+                            Notification::make()
+                                ->title('Failed')
+                                ->body($th->getMessage())
+                                ->danger()
+                                ->send();
+                        }
+                    }),
             ])
             ->headerActions([
                 CreateAction::make()
@@ -97,6 +117,7 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                             ->columns(2)
                             ->schema([
                                 TextInput::make('kode')
+                                    ->unique(ignoreRecord: true)
                                     ->required(),
                                 DateTimePicker::make('tgl')
                                     ->label('Tanggal')

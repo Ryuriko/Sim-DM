@@ -30,7 +30,7 @@ class Helper
                 } else {
                     $penggunaan = HistoryPenggunaan::find($id);
                     $penggunaan = $penggunaan->update([
-                        'total_barang' => $penggunaan['total_barang'] + $data['jumlah']
+                        'total_barang' => $penggunaan['total_barang'] - $data['jumlah']
                     ]);
                 }
             } else if($opr == 'sub') {
@@ -39,6 +39,7 @@ class Helper
                 ]);
                 
                 if($page != 'penggunaan') {
+                    $subtotal = (int)$data['jumlah'] * (int)$data['harga_satuan'];
                     $pembelian = HistoryPembelian::find($id);
                     $pembelian = $pembelian->update([
                         'harga_total' => $pembelian['harga_total'] - $subtotal
@@ -46,25 +47,29 @@ class Helper
                 } else {
                     $penggunaan = HistoryPenggunaan::find($id);
                     $penggunaan = $penggunaan->update([
-                        'total_barang' => $penggunaan['total_barang'] - $data['jumlah']
+                        'total_barang' => $penggunaan['total_barang'] + $data['jumlah']
                     ]);
                 }
             } else if($opr == 'edit') {
                 $stok = (int)$data['jumlah'] - (int)$data['jumlah_before'];
 
-                $barang = $barang->update([
-                    'stok' => (int)$barang['stok'] + (int)$stok
-                ]);
-                
                 if($page != 'penggunaan') {
                     $subtotal = (int)$data['jumlah'] * (int)$data['harga_satuan'];
                     $subtotalEdit = $subtotal - $data['subtotal_before'];
+
+                    $barang = $barang->update([
+                        'stok' => (int)$barang['stok'] + (int)$stok
+                    ]);
                     
                     $pembelian = HistoryPembelian::find($id);
                     $pembelian = $pembelian->update([
                         'harga_total' => $pembelian['harga_total'] + $subtotalEdit
                     ]);
                 } else {
+                    $barang = $barang->update([
+                        'stok' => (int)$barang['stok'] - (int)$stok
+                    ]);
+
                     $penggunaan = HistoryPenggunaan::find($id);
                     $penggunaan = $penggunaan->update([
                         'total_barang' => $penggunaan['total_barang'] + $stok

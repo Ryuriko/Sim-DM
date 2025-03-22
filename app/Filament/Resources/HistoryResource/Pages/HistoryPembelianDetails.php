@@ -60,7 +60,8 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
         return $table
             ->query(HistoryPembelianDetail::query())
             ->modifyQueryUsing(function ($query) {
-                return $query->where('pembelian_id', self::$record->id);
+                $id = Session::get('id');
+                return $query->where('pembelian_id', $id);
             })
             ->columns([
                 TextColumn::make('barang.nama')
@@ -111,7 +112,7 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
                         return $data;
                     })
                     ->mutateFormDataUsing(function (EditAction $action, $record, array $data): array {
-                        $id = self::$record->id;
+                        $id = Session::get('id');
                         $data['jumlah_before'] = $record['jumlah'];
                         $data['subtotal_before'] = $record['subtotal'];
                         $result = Helper::updateStok($id, $data, 'edit');
@@ -135,7 +136,8 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
                     }),
                 DeleteAction::make()
                     ->before(function ($record) {
-                        $result = Helper::updateStok(self::$record->id, $record, 'sub');
+                        $id = Session::get('id');
+                        $result = Helper::updateStok($id, $record, 'sub');
                         if($result['status'] == false) {
                             Notification::make()
                                 ->title('Failed')

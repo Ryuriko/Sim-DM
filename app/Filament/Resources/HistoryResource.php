@@ -5,12 +5,15 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Barang;
+use App\Helpers\Helper;
 use App\Models\History;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Models\HistoryPenggunaan;
 use Filament\Tables\Actions\Action;
+use App\Models\HistoryPenggunaanDetail;
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\CreateAction;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\HistoryResource\Pages;
@@ -40,13 +43,10 @@ class HistoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('kode')
+                    ->unique(ignoreRecord: true)
                     ->required(),
                 Forms\Components\DateTimePicker::make('tgl')
                     ->label('Tanggal')
-                    ->required(),
-                Forms\Components\TextInput::make('total_barang')
-                    ->label('Total Barang')
-                    ->numeric()
                     ->required(),
                 Forms\Components\TextArea::make('ket')
                     ->label('Keterangan')
@@ -74,6 +74,22 @@ class HistoryResource extends Resource
                     ->icon('heroicon-o-list-bullet')
                     ->url(fn ($record): string => route('filament.admin.resources.histories.penggunaan.detail', ['record' => $record])),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function ($record) {
+                        try {
+                            $details = HistoryPenggunaanDetail::where('penggunaan_id', $record->id)->get();
+                            foreach ($details as $detail) {
+                                $result = Helper::updateStok($record->id, $detail, 'add', 'penggunaan');
+                                $detail->delete();
+                            }
+                        } catch (\Throwable $th) {
+                            Notification::make()
+                                ->title('Failed')
+                                ->body($th->getMessage())
+                                ->danger()
+                                ->send();
+                        }
+                    }),
             ])
             ->headerActions([
                 CreateAction::make()
