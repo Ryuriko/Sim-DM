@@ -59,6 +59,7 @@ class AdminPanelProvider extends PanelProvider
                 'Web',
                 'Karyawan',
                 'Inventory',
+                'Hotel',
             ]);
     }
 }

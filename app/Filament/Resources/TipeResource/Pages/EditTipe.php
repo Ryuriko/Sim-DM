@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\KamarResource\Pages;
+namespace App\Filament\Resources\TipeResource\Pages;
 
-use App\Filament\Resources\KamarResource;
+use App\Filament\Resources\TipeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditKamar extends EditRecord
+class EditTipe extends EditRecord
 {
-    protected static string $resource = KamarResource::class;
+    protected static string $resource = TipeResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -16,5 +16,4 @@ class EditKamar extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
-
 }
