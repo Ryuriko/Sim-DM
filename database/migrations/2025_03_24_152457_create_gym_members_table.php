@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama', 100)->nullable()->default(null);
             $table->string('email', 100)->nullable()->default(null);
-            $table->string('telepon', 100)->nullable()->default(null);
+            $table->string('telp', 100)->nullable()->default(null);
             $table->string('alamat', 100)->nullable()->default(null);
             $table->string('tgl_lahir', 100)->nullable()->default(null);
             $table->string('tgl_gabung', 100)->nullable()->default(null);

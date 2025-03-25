@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama', 100)->nullable()->default(null);
             $table->string('email', 100)->nullable()->default(null);
-            $table->string('telepon', 100)->nullable()->default(null);
-            $table->string('spealisasi', 100)->nullable()->default(null);
+            $table->string('telp', 100)->nullable()->default(null);
+            $table->string('spesialisasi', 100)->nullable()->default(null);
             $table->timestamps();
         });
     }

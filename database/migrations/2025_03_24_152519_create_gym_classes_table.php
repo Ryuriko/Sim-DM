@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama', 100)->nullable()->default(null);
             $table->string('jadwal', 100)->nullable()->default(null);
             $table->string('maks', 100)->nullable()->default(null);
+            $table->string('ket')->nullable()->default(null);
             $table->timestamps();
         });
     }

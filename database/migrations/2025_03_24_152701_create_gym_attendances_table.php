@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gym_attendaces', function (Blueprint $table) {
+        Schema::create('gym_attendances', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('member_id')->nullable()->default(null);
             $table->string('waktu_masuk', 100)->nullable()->default(null);
