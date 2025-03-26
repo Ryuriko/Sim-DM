@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\GymAttendanceResource\Pages;
 
-use App\Filament\Resources\GymAttendanceResource;
 use Filament\Actions;
+use Illuminate\Support\Facades\Session;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\GymAttendanceResource;
 
 class ListGymAttendances extends ListRecords
 {
@@ -13,7 +14,13 @@ class ListGymAttendances extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->mutateFormDataUsing(function (array $data): array {
+                    $tgl = Session::get('filteredDate');
+                    $data['tgl'] = $tgl;
+            
+                    return $data;
+                })
         ];
     }
 }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('gym_attendances', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('member_id')->nullable()->default(null);
+            $table->string('tgl', 100)->nullable()->default(null);
             $table->string('waktu_masuk', 100)->nullable()->default(null);
             $table->string('waktu_keluar', 100)->nullable()->default(null);
             $table->timestamps();

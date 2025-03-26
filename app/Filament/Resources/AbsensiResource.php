@@ -110,9 +110,6 @@ class AbsensiResource extends Resource
                     })
             ], layout: FiltersLayout::AboveContent)
             ->actions([
-                // Tables\Actions\CreateAction::make()
-                //     ->label('Add')
-                //     ->icon('heroicon-o-plus'),
                 Tables\Actions\EditAction::make()
                     ->mutateRecordDataUsing(function (array $data): array {
                         $date = Session::get('filteredDate') ?? Carbon::now()->toDateString();
