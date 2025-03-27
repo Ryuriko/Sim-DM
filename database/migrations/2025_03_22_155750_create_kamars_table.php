@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('foto', 100)->nullable()->default(null);
             $table->enum('status', ['tersedia', 'terisi', 'dibersihkan', 'tidak tersedia'])->nullable()->default('tersedia');
             $table->timestamps();
+
+            $table->index('tipe_kamar_id');
         });
     }
 

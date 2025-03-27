@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('tgl_mulai', 100)->nullable()->default(null);
             $table->string('tgl_selesai', 100)->nullable()->default(null);
             $table->timestamps();
+
+            $table->index('member_id');
+            $table->index('paket_id');
         });
     }
 

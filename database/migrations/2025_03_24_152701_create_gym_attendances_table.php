@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('waktu_masuk', 100)->nullable()->default(null);
             $table->string('waktu_keluar', 100)->nullable()->default(null);
             $table->timestamps();
+
+            $table->index('member_id');
         });
     }
 

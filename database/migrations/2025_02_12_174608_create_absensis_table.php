@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('status', ['hadir', 'alpha', 'cuti', 'sakit', 'izin'])->nullable()->default('alpha');
             $table->timestamps();
 
+            $table->index('user_id');
             $table->index('assigned_by');
         });
     }
