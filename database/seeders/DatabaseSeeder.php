@@ -22,6 +22,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CompanyProfileSeeder::class,
+            RoleSeeder::class,
+            AbsensiSeeder::class,
+            PenggajianSeeder::class,
+            SettingPenggajianSeeder::class,
         ]);
     }
 }

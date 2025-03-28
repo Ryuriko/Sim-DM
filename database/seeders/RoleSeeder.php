@@ -26,7 +26,7 @@ class RoleSeeder extends Seeder
                 'salary' => '5000000'
             ],
             [
-                'name' => 'admin gudang',
+                'name' => 'gudang',
                 'salary' => '5000000'
             ],
             [
