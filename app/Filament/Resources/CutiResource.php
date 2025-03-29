@@ -37,15 +37,12 @@ class CutiResource extends Resource
 
     public static function form(Form $form): Form
     {
-        // dd(User::whereDoesntHave('role', function($query) {
-        //     $query->where('name', 'sistem');
-        // })->get());
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->label('Karyawan')
-                    ->options(User::whereDoesntHave('role', function($query) {
-                        $query->where('name', 'sistem');
+                    ->options(User::whereDoesntHave('roles', function($query) {
+                        $query->where('name', 'super_admin');
                     })->pluck('name', 'id'))
                     ->required(),
                 Forms\Components\DatePicker::make('tgl_mulai')
