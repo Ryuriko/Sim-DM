@@ -63,8 +63,8 @@ class AbsensiResource extends Resource
     {
         return $table
             ->query(
-                User::query()->whereDoesntHave('role', function($query) {
-                    $query->where('name', 'sistem');
+                User::query()->whereDoesntHave('roles', function($query) {
+                    $query->where('name', 'super_admin');
                 })
                 ->with('absensis', function($query) {
                     $date = Session::get('filteredDate') ?? Carbon::now()->toDateString();

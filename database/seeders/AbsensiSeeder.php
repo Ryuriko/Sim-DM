@@ -17,8 +17,8 @@ class AbsensiSeeder extends Seeder
     {
         $date = Carbon::now()->toDateString();
 
-        $karyawans = User::whereDoesntHave('role', function($query) {
-            $query->where('name', 'sistem');
+        $karyawans = User::whereDoesntHave('roles', function($query) {
+            $query->where('name', 'super_admin');
         })
         ->whereDoesntHave('absensis', function($query) use($date){
             $query->where('tgl', $date);

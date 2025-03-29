@@ -66,8 +66,8 @@ class PenggajianResource extends Resource
     {
         return $table
             ->query(
-                User::query()->whereDoesntHave('role', function($query) {
-                    $query->where('name', 'sistem');
+                User::query()->whereDoesntHave('roles', function($query) {
+                    $query->where('name', 'super_admin');
                 })
                 ->with('penggajians', function($query) {
                     $tahun = Session::get('filteredTahun') ?? Carbon::now()->year;

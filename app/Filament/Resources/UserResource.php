@@ -2,21 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
+use Filament\Forms;
 use App\Models\Role;
 use App\Models\User;
-use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
 {
@@ -43,10 +44,11 @@ class UserResource extends Resource
                 TextInput::make('name')
                     ->label('Nama')
                     ->required(),
-                Select::make('role_id')
-                    ->options(Role::whereNot('name', 'sistem')->pluck('name', 'id'))
-                    ->label('Role')
-                    ->required(),
+                Forms\Components\Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
                 TextInput::make('email')
                     ->email()
                     ->required(),
@@ -71,18 +73,17 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(
-                User::query()->whereDoesntHave('role', function($query) {
-                    $query->where('name', 'sistem');
-                })
-                ->with('role')
-            )
+            // ->query(
+            //     User::query()->whereDoesntHave('roles', function($query) {
+            //         $query->where('name', 'super_admin');
+            //     })
+            //     ->with('role')
+            // )
             ->columns([
                 TextColumn::make('name')
                     ->label('Nama'),
-                    
-                TextColumn::make('role.name')
-                    ->label('Role'),
+                // TextColumn::make('role.name')
+                //     ->label('Role'),
                 TextColumn::make('email'),
                 TextColumn::make('nik')
                     ->label('NIK'),

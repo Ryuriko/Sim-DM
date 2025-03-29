@@ -17,8 +17,8 @@ class PenggajianSeeder extends Seeder
         $bulan = now()->locale('id')->translatedFormat('F');
         $tahun = now()->year;
 
-        $users = User::whereDoesntHave('role', function($query) {
-            $query->where('name', 'sistem');
+        $users = User::whereDoesntHave('roles', function($query) {
+            $query->where('name', 'super_admin');
         })
         ->whereDoesntHave('penggajians', function($query) use($bulan){
             $query->where('bulan', $bulan);
