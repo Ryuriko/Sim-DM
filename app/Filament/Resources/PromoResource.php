@@ -54,7 +54,8 @@ class PromoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama'),
+                Tables\Columns\TextColumn::make('nama')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('tgl_mulai')
                     ->label('Mulai')
                     ->dateTime(),

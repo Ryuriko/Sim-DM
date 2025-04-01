@@ -33,7 +33,7 @@ class KamarResource extends Resource
 
     protected static ?string $navigationGroup = 'Hotel';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -85,6 +85,7 @@ class KamarResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('no')
+                    ->searchable()
                     ->label('No Kamar'),
                 Tables\Columns\TextColumn::make('tipe.nama')
                     ->label('Tipe Kamar'),

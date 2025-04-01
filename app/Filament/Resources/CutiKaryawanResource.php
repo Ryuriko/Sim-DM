@@ -53,8 +53,10 @@ class CutiKaryawanResource extends Resource
             )
             ->columns([
                 Tables\Columns\TextColumn::make('tgl_mulai')
+                    ->searchable()
                     ->label('Tanggal Mulai'),
                 Tables\Columns\TextColumn::make('tgl_selesai')
+                    ->searchable()
                     ->label('Tanggal Selesai'),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()

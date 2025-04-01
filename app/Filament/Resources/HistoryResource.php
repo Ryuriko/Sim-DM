@@ -57,13 +57,16 @@ class HistoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('kode'),
+                Tables\Columns\TextColumn::make('kode')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('tgl')
+                    ->searchable()
                     ->label('Tanggal')
                     ->date(),
                 Tables\Columns\TextColumn::make('total_barang')
                     ->label('Total Barang'),
                 Tables\Columns\TextColumn::make('ket')
+                    ->searchable()
                     ->label('Keterangan'),
             ])
             ->filters([

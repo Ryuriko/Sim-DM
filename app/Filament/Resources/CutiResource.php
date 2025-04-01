@@ -40,6 +40,7 @@ class CutiResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
+                    ->searchable()
                     ->label('Karyawan')
                     ->options(User::whereDoesntHave('roles', function($query) {
                         $query->where('name', 'super_admin');
@@ -69,7 +70,7 @@ class CutiResource extends Resource
             ->columns([
                 TextColumn::make('user.name')
                     ->label('Karyawan'),
-                TextColumn::make('user.role.name')
+                TextColumn::make('user.roles.name')
                     ->label('Jabatan')
                     ->color('gray')
                     ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state))),

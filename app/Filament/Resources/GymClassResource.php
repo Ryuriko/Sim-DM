@@ -37,6 +37,7 @@ class GymClassResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('pelatih')
+                    ->label('Pelatih')
                     ->multiple()
                     ->relationship('pelatihs')
                     ->hint('Bisa lebih dari satu')
@@ -60,9 +61,11 @@ class GymClassResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('pelatihs.nama')
                     ->label('Pelatih')
+                    ->searchable()
                     ->listWithLineBreaks()
                     ->bulleted(),
-                Tables\Columns\TextColumn::make('nama'),
+                Tables\Columns\TextColumn::make('nama')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('jadwal')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('maks')

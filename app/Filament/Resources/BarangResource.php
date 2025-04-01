@@ -87,7 +87,8 @@ class BarangResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('kode'),
+                Tables\Columns\TextColumn::make('kode')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('nama'),
                 Tables\Columns\TextColumn::make('kategori.nama'),
                 Tables\Columns\TextColumn::make('merk'),
@@ -100,8 +101,7 @@ class BarangResource extends Resource
                 Tables\Columns\TextColumn::make('harga_beli')
                     ->money('Rp.'),
                 Tables\Columns\TextColumn::make('harga_jual')
-                    ->money('Rp.')
-                    ->numeric(),
+                    ->money('Rp.'),
                 Tables\Columns\TextColumn::make('supplier.nama'),
                 Tables\Columns\TextColumn::make('lokasi'),
                 Tables\Columns\TextColumn::make('status')                
@@ -121,6 +121,7 @@ class BarangResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->headerActions([
                 CreateAction::make()

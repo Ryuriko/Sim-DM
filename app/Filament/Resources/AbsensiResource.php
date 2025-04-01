@@ -43,10 +43,8 @@ class AbsensiResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TimePicker::make('jam_masuk')
-                    ->required(),
-                Forms\Components\TimePicker::make('jam_keluar')
-                    ->required(),
+                Forms\Components\TimePicker::make('jam_masuk'),
+                Forms\Components\TimePicker::make('jam_keluar'),
                 Forms\Components\Select::make('status')
                     ->options([
                         'hadir' => 'Hadir',
@@ -71,7 +69,8 @@ class AbsensiResource extends Resource
                     $query->where('tgl', $date); 
             }))
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                    ->searchable(),
                 TextColumn::make('absensis.jam_masuk')
                     ->label('Jam Masuk')
                     ->time(),

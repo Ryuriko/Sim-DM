@@ -48,7 +48,8 @@ class GymPaketResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama'),
+                Tables\Columns\TextColumn::make('nama')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('harga')
                     ->money('Rp.'),
                 Tables\Columns\TextColumn::make('ket')

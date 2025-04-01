@@ -55,6 +55,7 @@ class GymSubscriptionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('member.nama')
+                    ->searchable()
                     ->label('Anggota'),
                 Tables\Columns\TextColumn::make('paket.nama')
                     ->label('Paket'),

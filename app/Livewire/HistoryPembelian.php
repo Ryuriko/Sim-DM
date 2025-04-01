@@ -51,8 +51,10 @@ class HistoryPembelian extends Component implements HasForms, HasTable
         return $table
             ->query(HistoryPembelianModel::query())
             ->columns([
-                TextColumn::make('kode'),
+                TextColumn::make('kode')
+                    ->searchable(),
                 TextColumn::make('tgl')
+                    ->searchable()
                     ->label('Tanggal')
                     ->date(),
                 TextColumn::make('harga_total')

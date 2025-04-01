@@ -32,7 +32,7 @@ class TipeResource extends Resource
 
     protected static ?string $navigationGroup = 'Hotel';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -51,7 +51,8 @@ class TipeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama'),
+                Tables\Columns\TextColumn::make('nama')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('kapasitas'),
                 Tables\Columns\TextColumn::make('harga')
                     ->money('Rp.')
@@ -61,6 +62,7 @@ class TipeResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

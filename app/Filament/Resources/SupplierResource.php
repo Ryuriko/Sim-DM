@@ -52,7 +52,8 @@ class SupplierResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama'),
+                Tables\Columns\TextColumn::make('nama')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('kontak'),
                 Tables\Columns\TextColumn::make('alamat'),
                 Tables\Columns\TextColumn::make('kota'),

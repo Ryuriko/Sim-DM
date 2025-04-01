@@ -78,6 +78,7 @@ class PenggajianResource extends Resource
             )
             ->columns([
                 TextColumn::make('name')
+                    ->searchable()
                     ->label('Nama'),
                 TextColumn::make('role.name')
                     ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))

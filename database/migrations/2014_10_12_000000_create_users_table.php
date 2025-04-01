@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('rek_vendor')->unique()->nullable()->default(null);
             $table->string('rek_no')->unique()->nullable()->default(null);
             $table->string('rek_nama')->unique()->nullable()->default(null);
-            $table->string('rek')->unique()->nullable()->default(null);
             $table->string('ktp')->nullable()->default(null);
             $table->string('foto')->nullable()->default(null);
             $table->string('cv')->nullable()->default(null);

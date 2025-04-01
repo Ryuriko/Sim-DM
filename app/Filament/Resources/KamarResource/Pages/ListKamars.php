@@ -24,17 +24,22 @@ class ListKamars extends ListRecords
                     return $model::create($data);
                 })
                 ->after(function ($data, $record) {
-                    $fasilitas = $data['fasilitas'];
-                    $fotos = $data['fotos'];
-                    foreach ($fotos as $foto) {
-                        $createFoto = Foto::create([
-                            'path' => $foto
-                        ]);
+                    // $fasilitas = $data['fasilitas'];
+                    $fotos = $data['fotos'] ?? '';
+                    if($fotos != '') {
+                        $record->fotos()->detach();
 
-                        $record->fotos()->snyc($createFoto->id);
+                        foreach ($fotos as $foto) {
+                            $createFoto = Foto::updateOrCreate([
+                                'path' => $foto
+                            ]);
+                            
+                            $record->fotos()->attach($createFoto->id);
+                        }
+
                     }
 
-                    $record->fasilitas()->sync($fasilitas);
+                    // $record->fasilitas()->sync($fasilitas);
                 }),
         ];
     }

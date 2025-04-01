@@ -56,6 +56,7 @@ class GymAttendanceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('member.nama')
+                    ->searchable()
                     ->label('Anggota'),
                 Tables\Columns\TextColumn::make('waktu_masuk')
                     ->label('Waktu Masuk')
