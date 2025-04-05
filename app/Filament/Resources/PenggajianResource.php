@@ -36,7 +36,13 @@ class PenggajianResource extends Resource
 
     protected static ?string $navigationLabel = 'Penggajian';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-m-users';
+
+    protected static ?string $navigationGroup = 'Karyawan';
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -60,8 +66,8 @@ class PenggajianResource extends Resource
     {
         return $table
             ->query(
-                User::query()->whereDoesntHave('role', function($query) {
-                    $query->where('name', 'sistem');
+                User::query()->whereDoesntHave('roles', function($query) {
+                    $query->where('name', 'super_admin');
                 })
                 ->with('penggajians', function($query) {
                     $tahun = Session::get('filteredTahun') ?? Carbon::now()->year;
@@ -72,7 +78,12 @@ class PenggajianResource extends Resource
             )
             ->columns([
                 TextColumn::make('name')
+                    ->searchable()
                     ->label('Nama'),
+                TextColumn::make('role.name')
+                    ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
+                    ->color('gray')
+                    ->label('Jabatan'),
                 TextColumn::make('penggajians.bulan')
                     ->label('Bulan'),
                 TextColumn::make('penggajians.tahun')
@@ -94,7 +105,6 @@ class PenggajianResource extends Resource
                 TextColumn::make('penggajians.ket')
                     ->label('Keterangan')
                     ->words(5)
-                    ->lineClamp(3)
                 
             ])
             ->filters([

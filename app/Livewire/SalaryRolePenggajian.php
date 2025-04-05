@@ -26,17 +26,16 @@ class SalaryRolePenggajian extends Component implements HasForms
 
     public function mount()
     {
-        $salary = Role::whereNot('name', 'sistem')->get();
-        $manajer = $salary->firstWhere('name', 'manajer')['salary'];
-        $admin = $salary->firstWhere('name', 'admin')['salary'];
-        $gudang = $salary->firstWhere('name', 'gudang')['salary'];
-        $karyawan = $salary->firstWhere('name', 'karyawan')['salary'];
+        $roles = Role::whereNot('name', 'super_admin')->get(['name', 'salary']);
+        foreach ($roles as $key => $value) {
+            $role[$value['name']] = $value['salary'];
+        }
 
         $this->form->fill([
-            'manajer' => $manajer,
-            'admin' => $admin,
-            'gudang' => $gudang,
-            'karyawan' => $karyawan,
+            'manajer' => $role['Manajer'],
+            'admin' => $role['Admin'],
+            'gudang' => $role['Gudang'],
+            'karyawan' => $role['Karyawan'],
         ]);
     }
 
@@ -67,6 +66,11 @@ class SalaryRolePenggajian extends Component implements HasForms
 
     public function form(Form $form): Form
     {
+        $roles = Role::whereNot('name', 'super_admin')->get(['name', 'salary']);
+        foreach ($roles as $key => $value) {
+            $role[$value['name']] = $value['salary'];
+        }
+
         return $form
             ->schema([
                 Fieldset::make('Gaji Pokok')

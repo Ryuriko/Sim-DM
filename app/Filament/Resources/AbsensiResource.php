@@ -31,16 +31,20 @@ class AbsensiResource extends Resource
 
     protected static ?string $navigationLabel = 'Absensi';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-m-users';
+
+    protected static ?string $navigationGroup = 'Karyawan';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TimePicker::make('jam_masuk')
-                    ->required(),
-                Forms\Components\TimePicker::make('jam_keluar')
-                    ->required(),
+                Forms\Components\TimePicker::make('jam_masuk'),
+                Forms\Components\TimePicker::make('jam_keluar'),
                 Forms\Components\Select::make('status')
                     ->options([
                         'hadir' => 'Hadir',
@@ -57,15 +61,16 @@ class AbsensiResource extends Resource
     {
         return $table
             ->query(
-                User::query()->whereDoesntHave('role', function($query) {
-                    $query->where('name', 'sistem');
+                User::query()->whereDoesntHave('roles', function($query) {
+                    $query->where('name', 'super_admin');
                 })
                 ->with('absensis', function($query) {
                     $date = Session::get('filteredDate') ?? Carbon::now()->toDateString();
                     $query->where('tgl', $date); 
             }))
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                    ->searchable(),
                 TextColumn::make('absensis.jam_masuk')
                     ->label('Jam Masuk')
                     ->time(),
@@ -74,6 +79,7 @@ class AbsensiResource extends Resource
                     ->time(),
                 TextColumn::make('absensis.status')
                     ->label('Status')
+                    ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'hadir' => 'success',
@@ -103,9 +109,6 @@ class AbsensiResource extends Resource
                     })
             ], layout: FiltersLayout::AboveContent)
             ->actions([
-                // Tables\Actions\CreateAction::make()
-                //     ->label('Add')
-                //     ->icon('heroicon-o-plus'),
                 Tables\Actions\EditAction::make()
                     ->mutateRecordDataUsing(function (array $data): array {
                         $date = Session::get('filteredDate') ?? Carbon::now()->toDateString();

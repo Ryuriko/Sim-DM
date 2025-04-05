@@ -3,9 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Cuti;
 use App\Models\Absensi;
 use App\Models\Penggajian;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -49,16 +51,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the role that owns the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'role_id', 'id');
-    }
-
-    /**
      * Get all of the absensis for the Karyawan
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -86,5 +78,15 @@ class User extends Authenticatable
     public function penggajians()
     {
         return $this->hasMany(Penggajian::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the cutis for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cutis()
+    {
+        return $this->hasMany(Cuti::class, 'user_id', 'id');
     }
 }
