@@ -38,6 +38,11 @@ class PaymentController extends Controller
             $item
         );
 
+        $customerDetail = array(
+            'firstName' =>  $customerVaName,
+            'email' =>  $email,
+        );
+
         $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -51,6 +56,7 @@ class PaymentController extends Controller
                 'email' => (string)$email,
                 'customerVaName' => (string)$customerVaName,
                 'itemDetails' => $itemDetails,
+                'customerDetail' => $customerDetail,
                 'expiryPeriod' => (int)$expiryPeriod,
                 'callbackUrl' => (string)$callbackUrl,
                 'returnUrl' => (string)$returnUrl,
