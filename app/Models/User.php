@@ -89,4 +89,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cuti::class, 'user_id', 'id');
     }
+
+    /**
+     * Get all of the tickets for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'user_id', 'id');
+    }
 }
