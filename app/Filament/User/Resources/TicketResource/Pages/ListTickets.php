@@ -49,6 +49,7 @@ class ListTickets extends ListRecords
                             $record->update([
                                 'orderId' => $data['orderId'],
                                 'paymentUrl' => $data['paymentUrl'],
+                                'reference' => $data['reference'],
                             ]);
                         } else {
                             $message = '';

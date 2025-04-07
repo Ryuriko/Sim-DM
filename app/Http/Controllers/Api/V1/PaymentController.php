@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use Exception;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Intervention\Image\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PaymentController extends Controller
 {
@@ -67,7 +70,7 @@ class PaymentController extends Controller
         $data = $response->json();
         if ($statusCode == 200) {
             $data = array_merge($data, ['orderId' => $merchantOrderId]);
-            
+
             return [
                 'status' => 'success',
                 'message' => 'OK',
@@ -82,49 +85,34 @@ class PaymentController extends Controller
 
     }
 
-    public function callback()
+    public function callback(Request $request)
     {
-        $apiKey = env('DUITKU_API_KEY');
-        $merchantCode = isset($_POST['merchantCode']) ? $_POST['merchantCode'] : null; 
-        $amount = isset($_POST['amount']) ? $_POST['amount'] : null; 
-        $merchantOrderId = isset($_POST['merchantOrderId']) ? $_POST['merchantOrderId'] : null; 
-        $productDetail = isset($_POST['productDetail']) ? $_POST['productDetail'] : null; 
-        $additionalParam = isset($_POST['additionalParam']) ? $_POST['additionalParam'] : null; 
-        $paymentCode = isset($_POST['paymentCode']) ? $_POST['paymentCode'] : null; 
-        $resultCode = isset($_POST['resultCode']) ? $_POST['resultCode'] : null; 
-        $merchantUserId = isset($_POST['merchantUserId']) ? $_POST['merchantUserId'] : null; 
-        $reference = isset($_POST['reference']) ? $_POST['reference'] : null; 
-        $signature = isset($_POST['signature']) ? $_POST['signature'] : null; 
-        $publisherOrderId = isset($_POST['publisherOrderId']) ? $_POST['publisherOrderId'] : null; 
-        $spUserHash = isset($_POST['spUserHash']) ? $_POST['spUserHash'] : null; 
-        $settlementDate = isset($_POST['settlementDate']) ? $_POST['settlementDate'] : null; 
-        $issuerCode = isset($_POST['issuerCode']) ? $_POST['issuerCode'] : null; 
+        $data = $request->all();
 
-        //log callback untuk debug 
-        // file_put_contents('callback.txt', "* Callback *\r\n", FILE_APPEND | LOCK_EX);
+        $ticket = Ticket::where('reference', $data['reference'])->where('orderId', $data['merchantOrderId'])->first();
+        if($data['resultCode'] == 00) {
+            $ticket->update([
+                'status' => 'paid'
+            ]);
 
-        if(!empty($merchantCode) && !empty($amount) && !empty($merchantOrderId) && !empty($signature))
-        {
-            $params = $merchantCode . $amount . $merchantOrderId . $apiKey;
-            $calcSignature = md5($params);
+            $qrCodePath = 'qrcodes/' . $ticket['id'] . '.png';
+            $fullPath = storage_path('app/public/' . $qrCodePath);
 
-            if($signature == $calcSignature)
-            {
-                //Callback tervalidasi
-                //Silahkan rubah status transaksi anda disini
-                // file_put_contents('callback.txt', "* Berhasil *\r\n\r\n", FILE_APPEND | LOCK_EX);
-
+            if (!file_exists(dirname($fullPath))) {
+                mkdir(dirname($fullPath), 0755, true);
             }
-            else
-            {
-                // file_put_contents('callback.txt', "* Bad Signature *\r\n\r\n", FILE_APPEND | LOCK_EX);
-                throw new Exception('Bad Signature');
-            }
+
+            QrCode::format('png')
+                ->size(250)
+                ->generate($ticket['reference']. ' ' .  $ticket['orderId'], $fullPath);
+
+            $ticket->update(['qrcode' => $qrCodePath]);
+        } else if($data['resultCode'] == 02) {
+            $ticket->update([
+                'status' => 'unpaid'
+            ]);
         }
-        else
-        {
-            // file_put_contents('callback.txt', "* Bad Parameter *\r\n\r\n", FILE_APPEND | LOCK_EX);
-            throw new Exception('Bad Parameter');
-        }
+
+        return redirect('/user/tickets');
     }
 }

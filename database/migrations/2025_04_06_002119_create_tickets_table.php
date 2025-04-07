@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('qrcode', 100)->nullable()->default(null);
             $table->string('orderId', 100)->nullable()->default(null);
             $table->string('paymentUrl')->nullable()->default(null);
+            $table->string('reference')->nullable()->default(null);
             $table->timestamps();
 
             $table->index('user_id');

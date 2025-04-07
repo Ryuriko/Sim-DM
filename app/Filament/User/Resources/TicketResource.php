@@ -2,16 +2,17 @@
 
 namespace App\Filament\User\Resources;
 
-use App\Filament\User\Resources\TicketResource\Pages;
-use App\Filament\User\Resources\TicketResource\RelationManagers;
-use App\Models\Ticket;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Ticket;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\User\Resources\TicketResource\Pages;
+use App\Filament\User\Resources\TicketResource\RelationManagers;
 
 class TicketResource extends Resource
 {
@@ -49,8 +50,10 @@ class TicketResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('orderId')
+                    ->label('Order ID'),
                 Tables\Columns\TextColumn::make('qty')
-                    ->label('Quantity'),
+                    ->label('Jumlah Tiket'),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Tanggal')
                     ->date(),
@@ -66,7 +69,23 @@ class TicketResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('qrcode')
+                    ->hidden(fn ($record) => $record->status != 'paid')
+                    ->label('QR')
+                    ->color('gray')
+                    ->icon('heroicon-o-qr-code')
+                    ->modalHeading('QR Code')
+                    ->modalSubmitAction(false)
+                    ->modalContent(fn ($record) => view('custom.qr-modal', [
+                        'qrUrl' => Storage::url($record->qrcode),
+                    ])),
+                Tables\Actions\Action::make('bayar')
+                    ->icon('heroicon-o-banknotes')
+                    ->label('Pembayaran')
+                    ->color('success')
+                    ->url(fn ($record) => $record->paymentUrl)
+                    ->openUrlInNewTab(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
