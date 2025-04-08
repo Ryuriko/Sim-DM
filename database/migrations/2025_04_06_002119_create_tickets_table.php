@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('orderId', 100)->nullable()->default(null);
             $table->string('paymentUrl')->nullable()->default(null);
             $table->string('reference')->nullable()->default(null);
+            $table->enum('status', ['unpaid', 'paid', 'used'])->nullable()->default('unpaid');
+            $table->string('paid_at', 100)->nullable()->default(null);
+            $table->string('used_at', 100)->nullable()->default(null);
             $table->timestamps();
 
             $table->index('user_id');

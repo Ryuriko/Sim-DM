@@ -92,7 +92,8 @@ class PaymentController extends Controller
         $ticket = Ticket::where('reference', $data['reference'])->where('orderId', $data['merchantOrderId'])->first();
         if($data['resultCode'] == 00) {
             $ticket->update([
-                'status' => 'paid'
+                'status' => 'paid',
+                'paid_at' => now()
             ]);
 
             $qrCodePath = 'qrcodes/' . $ticket['id'] . '.png';

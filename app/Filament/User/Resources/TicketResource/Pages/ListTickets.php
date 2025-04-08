@@ -21,9 +21,13 @@ class ListTickets extends ListRecords
                 ->modalHeading('Beli Tiket')
                 ->modalDescription('Harga satu tiket adalah Rp. ' . number_format((float)env('TICKET'), 0, ',', '.') . ' ,-')
                 ->modalSubmitActionLabel('Lanjutkan Ke Pembayaran')
+                ->mutateFormDataUsing(function (array $data) {
+                    $data['user_id'] = auth()->user()->id;
+
+                    return $data;
+                })
                 ->successRedirectUrl(function (Model $record) {
                     try {
-                        //code...
                         $paymentController = new PaymentController;
     
                         $user = auth()->user();

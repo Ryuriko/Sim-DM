@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -49,11 +50,16 @@ class TicketResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(
+                Ticket::where('user_id', auth()->user()->id)
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('orderId')
                     ->label('Order ID'),
                 Tables\Columns\TextColumn::make('qty')
-                    ->label('Jumlah Tiket'),
+                    ->label('Jumlah Tiket')
+                    ->badge()
+                    ->color('gray'),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Tanggal')
                     ->date(),
@@ -64,6 +70,12 @@ class TicketResource extends Resource
                         'paid' => 'success',
                         'unpaid' => 'danger'
                     }),
+                Tables\Columns\TextColumn::make('paid_at')
+                    ->label('Dibayar')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('used_at')
+                    ->label('Digunakan')
+                    ->dateTime(),
             ])
             ->filters([
                 //
@@ -85,11 +97,21 @@ class TicketResource extends Resource
                     ->color('success')
                     ->url(fn ($record) => $record->paymentUrl)
                     ->openUrlInNewTab(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->after(function($record) {
+                        Storage::disk('public')?->delete($record->qrcode);
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->action(function (Collection $records) {
+                            foreach ($records as $record) {
+                                Storage::disk('public')?->delete($record->qrcode);
+                            }
+
+                            $record->delete();
+                        })
                 ]),
             ]);
     }
@@ -105,7 +127,7 @@ class TicketResource extends Resource
     {
         return [
             'index' => Pages\ListTickets::route('/'),
-            'view' => Pages\ViewTicket::route('/{record}'),
+            // 'view' => Pages\ViewTicket::route('/{record}'),
             // 'create' => Pages\CreateTicket::route('/create'),
             // 'edit' => Pages\EditTicket::route('/{record}/edit'),
         ];
