@@ -108,12 +108,14 @@ class PaymentController extends Controller
                 ->generate($ticket['reference']. ' ' .  $ticket['orderId'], $fullPath);
 
             $ticket->update(['qrcode' => $qrCodePath]);
-        } else if($data['resultCode'] == 02) {
-            $ticket->update([
-                'status' => 'unpaid'
-            ]);
         }
+        // else if($data['resultCode'] == 02) {
+        //     dd($ticket);
+        //     $ticket->update([
+        //         'status' => 'unpaid'
+        //     ]);
+        // }
 
-        return redirect('/admin/tickets');
+        return redirect('/tickets');
     }
 }
