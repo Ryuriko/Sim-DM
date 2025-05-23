@@ -64,6 +64,7 @@ class AdminPanelProvider extends PanelProvider
                 'Web',
                 'Karyawan',
                 'Inventory',
+                'Water Boom',
                 'Hotel',
                 'Gym',
                 'Karyawan Menu',

@@ -73,7 +73,8 @@ class TicketResource extends Resource
                     ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
                     ->color(fn (string $state): string => match ($state) {
                         'paid' => 'success',
-                        'unpaid' => 'danger'
+                        'unpaid' => 'danger',
+                        'ots' => 'gray'
                     }),
                 Tables\Columns\TextColumn::make('paid_at')
                     ->label('Dibayar')
@@ -87,7 +88,7 @@ class TicketResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('qrcode')
-                    ->hidden(fn ($record) => $record->status != 'paid')
+                    ->hidden(fn ($record) => $record->status == 'unpaid')
                     ->label('QR')
                     ->color('gray')
                     ->icon('heroicon-o-qr-code')
@@ -97,6 +98,7 @@ class TicketResource extends Resource
                         'qrUrl' => Storage::url($record->qrcode),
                     ])),
                 Tables\Actions\Action::make('bayar')
+                    ->hidden(fn ($record) => $record->status == 'ots')
                     ->icon('heroicon-o-banknotes')
                     ->label('Pembayaran')
                     ->color('success')
