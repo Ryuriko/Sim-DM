@@ -14,9 +14,10 @@ use App\Http\Controllers\Api\V1\PaymentController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/payment/pay', [PaymentController::class, 'pay'])->name('payment.pay');
 Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
+ 
