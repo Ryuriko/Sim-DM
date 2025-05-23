@@ -66,6 +66,9 @@ class AdminPanelProvider extends PanelProvider
                 'Inventory',
                 'Hotel',
                 'Gym',
+                'Karyawan Menu',
+                'Pengguna',
+                'Pelindung',
             ]);
     }
 }

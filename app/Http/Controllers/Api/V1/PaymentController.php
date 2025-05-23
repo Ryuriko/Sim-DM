@@ -114,6 +114,6 @@ class PaymentController extends Controller
             ]);
         }
 
-        return redirect('/user/tickets');
+        return redirect('/admin/tickets');
     }
 }

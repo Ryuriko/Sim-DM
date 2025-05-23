@@ -15,6 +15,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CutiKaryawanResource extends Resource
 {
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->hasRole(['Karyawan', 'Manajer', 'Gudang', 'Admin']);
+    }
+
     protected static ?string $model = CutiKaryawan::class;
     
     protected static ?string $pluralModelLabel = 'Cuti';

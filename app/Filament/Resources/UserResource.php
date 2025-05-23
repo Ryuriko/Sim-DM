@@ -22,6 +22,11 @@ use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
 {
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->hasRole('Manajer');
+    }
+
     protected static ?string $model = User::class;
 
     protected static ?string $pluralModelLabel = 'Karyawan';
@@ -120,7 +125,8 @@ class UserResource extends Resource
         return $table
             ->query(
                 User::query()->whereDoesntHave('roles', function($query) {
-                    $query->where('name', 'super_admin');
+                    $query->where('name', 'super_admin')
+                        ->orWhere('name', 'User');
                 })
             )
             ->columns([
