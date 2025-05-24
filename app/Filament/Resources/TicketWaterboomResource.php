@@ -17,6 +17,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class TicketWaterboomResource extends Resource
 {
@@ -65,7 +66,7 @@ class TicketWaterboomResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('orderId')
+                Tables\Columns\TextColumn::make('transaksi.orderId')
                     ->label('Order ID'),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Nama')
@@ -74,11 +75,11 @@ class TicketWaterboomResource extends Resource
                 Tables\Columns\TextColumn::make('qty')
                     ->label('Jumlah Tiket')
                     ->badge()
-                    ->color('gray'),
+                    ->color('success'),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Tanggal')
                     ->date(),
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('transaksi.status')
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
                     ->color(fn (string $state): string => match ($state) {
@@ -86,10 +87,10 @@ class TicketWaterboomResource extends Resource
                         'unpaid' => 'danger',
                         'ots' => 'gray'
                     }),
-                Tables\Columns\TextColumn::make('paid_at')
+                Tables\Columns\TextColumn::make('transaksi.paid_at')
                     ->label('Dibayar')
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('used_at')
+                Tables\Columns\TextColumn::make('transaksi.used_at')
                     ->label('Digunakan')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('')
@@ -152,12 +153,18 @@ class TicketWaterboomResource extends Resource
                     }),
             ], layout: FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->after(function($record) {
+                        Storage::disk('public')?->delete($record->transaksi->qrcode);
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->after(function($record) {
+                            Storage::disk('public')?->delete($record->transaksi->qrcode);
+                        }),
                 ]),
             ]);
     }

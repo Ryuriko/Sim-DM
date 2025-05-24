@@ -21,7 +21,7 @@ class TicketExport implements FromView
     public function view(): View
     {
         return view('custom.export.ticket', [
-            'datas' => Ticket::whereMonth('date', $this->month)->whereYear('date', $this->year)->get(),
+            'datas' => Ticket::with('transaksi')->whereMonth('date', $this->month)->whereYear('date', $this->year)->get(),
             'month' => $this->month,
             'year' => $this->year,
         ]);

@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tickets', function (Blueprint $table) {
+        Schema::create('reservasis', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id')->nullable()->default(null);
             $table->unsignedInteger('transaksi_id')->nullable()->default(null);
-            $table->string('qty')->nullable()->default(0);
-            $table->string('date', 100)->nullable()->default(null);
+            $table->string('person_qty')->nullable()->default(null);
+            $table->string('checkin')->nullable()->default(null);
+            $table->string('checkout')->nullable()->default(null);
+            $table->string('ket')->nullable()->default(null);
             $table->timestamps();
 
             $table->index('user_id');
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tickets');
+        Schema::dropIfExists('reservasis');
     }
 };

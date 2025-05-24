@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Filament\Resources\Pages\ListRecords;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Filament\Resources\TicketWaterboomResource;
+use App\Models\Transaksi;
 
 class ListTicketWaterbooms extends ListRecords
 {
@@ -27,16 +28,16 @@ class ListTicketWaterbooms extends ListRecords
                     return Excel::download(new TicketExport($bulan, $tahun), $fileName, \Maatwebsite\Excel\Excel::XLSX);
                 }),
             Actions\CreateAction::make()
-                ->mutateFormDataUsing(function (array $data) {
-                    $data['orderId'] = random_int(1, 9999999999);
-                    $data['reference'] = Str::random(24);
-                    $data['status'] = 'ots';
-                    $data['paid_at'] = now();
-                    $data['used_at'] = now();
-
-                    return $data;
-                })
                 ->after(function($record) {
+                    $transaksi_arr['orderId'] = random_int(1, 9999999999);
+                    $transaksi_arr['reference'] = Str::random(24);
+                    $transaksi_arr['status'] = 'ots';
+                    $transaksi_arr['paid_at'] = now();
+                    $transaksi_arr['used_at'] = now();
+                    $transaksi_arr['tipe'] = 'ticket-ots';
+
+                    $transaksi = Transaksi::create($transaksi_arr);
+                    
                     $qrCodePath = 'qrcodes/' . $record['id'] . '.png';
                     $fullPath = storage_path('app/public/' . $qrCodePath);
 
@@ -46,9 +47,10 @@ class ListTicketWaterbooms extends ListRecords
 
                     QrCode::format('png')
                         ->size(250)
-                        ->generate($record['reference']. ' ' .  $record['orderId'], $fullPath);
-
-                    $record->update(['qrcode' => $qrCodePath]);
+                        ->generate($transaksi['reference']. ' ' .  $transaksi['orderId'], $fullPath);
+                        
+                    $transaksi->update(['qrcode' => $qrCodePath]);
+                    $record->update(['transaksi_id' => $transaksi->id]);
                 }),
         ];
     }

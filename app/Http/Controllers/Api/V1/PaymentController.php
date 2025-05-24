@@ -7,6 +7,7 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Intervention\Image\Image;
 use App\Http\Controllers\Controller;
+use App\Models\Transaksi;
 use Illuminate\Support\Facades\Http;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -89,14 +90,14 @@ class PaymentController extends Controller
     {
         $data = $request->all();
 
-        $ticket = Ticket::where('reference', $data['reference'])->where('orderId', $data['merchantOrderId'])->first();
+        $transaksi = Transaksi::where('reference', $data['reference'])->where('orderId', $data['merchantOrderId'])->first();
         if($data['resultCode'] == 00) {
-            $ticket->update([
+            $transaksi->update([
                 'status' => 'paid',
                 'paid_at' => now()
             ]);
 
-            $qrCodePath = 'qrcodes/' . $ticket['id'] . '.png';
+            $qrCodePath = 'qrcodes/' . $transaksi['id'] . '.png';
             $fullPath = storage_path('app/public/' . $qrCodePath);
 
             if (!file_exists(dirname($fullPath))) {
@@ -105,17 +106,25 @@ class PaymentController extends Controller
 
             QrCode::format('png')
                 ->size(250)
-                ->generate($ticket['reference']. ' ' .  $ticket['orderId'], $fullPath);
+                ->generate($transaksi['reference']. ' ' .  $transaksi['orderId'], $fullPath);
 
-            $ticket->update(['qrcode' => $qrCodePath]);
+            $transaksi->update(['qrcode' => $qrCodePath]);
         }
         // else if($data['resultCode'] == 02) {
-        //     dd($ticket);
-        //     $ticket->update([
+        //     dd($transaksi);
+        //     $transaksi->update([
         //         'status' => 'unpaid'
         //     ]);
         // }
 
-        return redirect('/tickets');
+        if($transaksi->tipe == 'ticket'){
+            return redirect('/tickets');
+        } else if($transaksi->tipe == 'ticket-ots'){
+            return redirect('/ticket-waterbooms');
+        } else if($transaksi->tipe == 'reservasi'){
+            return redirect('/reservasi-pelanggans');
+        } else if($transaksi->tipe == 'reservasi-ots'){
+            return redirect('/reservasis');
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\TicketResource\Pages;
 
 use App\Filament\Resources\TicketResource;
 use App\Http\Controllers\Api\V1\PaymentController;
+use App\Models\Transaksi;
 use Filament\Actions;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
@@ -48,12 +49,17 @@ class ListTickets extends ListRecords
                             $itemPrice,
                             $itemQty
                         );
+
                         if($result['status'] == 'success') {
                             $data = $result['data'];
-                            $record->update([
+                            $transaksi = Transaksi::create([
                                 'orderId' => $data['orderId'],
                                 'paymentUrl' => $data['paymentUrl'],
                                 'reference' => $data['reference'],
+                                'tipe' => 'ticket',
+                            ]);
+                            $record->update([
+                                'transaksi_id' => $transaksi->id
                             ]);
                         } else {
                             $message = '';
@@ -68,12 +74,12 @@ class ListTickets extends ListRecords
                                 ->send();
                         }
     
-                        return $record->paymentUrl;
+                        return $transaksi->paymentUrl;
                     } catch (\Throwable $th) {
                         Notification::make()
                             ->title('Gagal')
                             // ->body('Mohon maaf, sedang ada gangguan')
-                            ->body($message)
+                            ->body($th->getMessage())
                             ->danger()
                             ->send();
                     }

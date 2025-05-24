@@ -59,16 +59,16 @@ class TicketResource extends Resource
                 Ticket::where('user_id', auth()->user()->id)
             )
             ->columns([
-                Tables\Columns\TextColumn::make('orderId')
+                Tables\Columns\TextColumn::make('transaksi.orderId')
                     ->label('Order ID'),
                 Tables\Columns\TextColumn::make('qty')
                     ->label('Jumlah Tiket')
                     ->badge()
-                    ->color('gray'),
+                    ->color('success'),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Tanggal')
                     ->date(),
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('transaksi.status')
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
                     ->color(fn (string $state): string => match ($state) {
@@ -76,10 +76,10 @@ class TicketResource extends Resource
                         'unpaid' => 'danger',
                         'ots' => 'gray'
                     }),
-                Tables\Columns\TextColumn::make('paid_at')
+                Tables\Columns\TextColumn::make('transaksi.paid_at')
                     ->label('Dibayar')
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('used_at')
+                Tables\Columns\TextColumn::make('transaksi.used_at')
                     ->label('Digunakan')
                     ->dateTime(),
             ])
@@ -88,25 +88,25 @@ class TicketResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('qrcode')
-                    ->hidden(fn ($record) => $record->status == 'unpaid')
+                    ->hidden(fn ($record) => $record->transaksi->status == 'unpaid')
                     ->label('QR')
                     ->color('gray')
                     ->icon('heroicon-o-qr-code')
                     ->modalHeading('QR Code')
                     ->modalSubmitAction(false)
                     ->modalContent(fn ($record) => view('custom.qr-modal', [
-                        'qrUrl' => Storage::url($record->qrcode),
+                        'qrUrl' => Storage::url($record->transaksi->qrcode),
                     ])),
                 Tables\Actions\Action::make('bayar')
-                    ->hidden(fn ($record) => $record->status == 'ots')
+                    ->hidden(fn ($record) => $record->transaksi->status == 'ots')
                     ->icon('heroicon-o-banknotes')
                     ->label('Pembayaran')
                     ->color('success')
-                    ->url(fn ($record) => $record->paymentUrl)
+                    ->url(fn ($record) => $record->transaksi->paymentUrl)
                     ->openUrlInNewTab(),
                 Tables\Actions\DeleteAction::make()
                     ->after(function($record) {
-                        Storage::disk('public')?->delete($record->qrcode);
+                        Storage::disk('public')?->delete($record->transaksi->qrcode);
                     }),
             ])
             ->bulkActions([
@@ -114,7 +114,7 @@ class TicketResource extends Resource
                     Tables\Actions\DeleteBulkAction::make()
                         ->action(function (Collection $records) {
                             foreach ($records as $record) {
-                                Storage::disk('public')?->delete($record->qrcode);
+                                Storage::disk('public')?->delete($record->transaksi->qrcode);
                             }
 
                             $record->delete();

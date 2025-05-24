@@ -26,17 +26,17 @@
     <tbody>
     @foreach($datas as $data)
         <tr>
-            <td align="center">{{ $data->orderId }}</td>
+            <td align="center">{{ $data->transaksi->orderId }}</td>
             <td align="center">{{ $data->user->name }}</td>
             <td align="center">{{ $data->qty }}</td>
             <td align="center">{{ $data->date }}</td>
-            <td align="center">{{ $data->status }}</td>
-            <td align="center">{{ $data->paid_at }}</td>
-            <td align="center">{{ $data->used_at }}</td>
+            <td align="center">{{ $data->transaksi->status }}</td>
+            <td align="center">{{ $data->transaksi->paid_at }}</td>
+            <td align="center">{{ $data->transaksi->used_at }}</td>
             <?php
                 $harga = (int)$data->qty * 35000;
                 
-                $total = $total + ($data->status == 'paid' ? $harga : 0);
+                $total = $total + ($data->transaksi->status == 'paid' ? $harga : 0);
             ?>
             <td align="center">Rp. {{number_format($harga, 0, ',', '.')}}</td>
         </tr>
