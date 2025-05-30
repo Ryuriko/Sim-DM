@@ -7,6 +7,7 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Intervention\Image\Image;
 use App\Http\Controllers\Controller;
+use App\Models\GymSubscription;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\Http;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -109,6 +110,7 @@ class PaymentController extends Controller
                 ->generate($transaksi['reference']. ' ' .  $transaksi['orderId'], $fullPath);
 
             $transaksi->update(['qrcode' => $qrCodePath]);
+
         }
         // else if($data['resultCode'] == 02) {
         //     dd($transaksi);
@@ -125,6 +127,13 @@ class PaymentController extends Controller
             return redirect('/reservasi-pelanggans');
         } else if($transaksi->tipe == 'reservasi-ots'){
             return redirect('/reservasis');
+        } else if($transaksi->tipe == 'gym'){
+            $gym = GymSubscription::where('transaksi_id', $transaksi->id)->first();
+            $gym->update(['status' => 'aktif']);
+
+            return redirect('/gym-pelanggans');
+        } else if($transaksi->tipe == 'gym-ots'){
+            return redirect('/gym-subscriptions');
         }
     }
 }

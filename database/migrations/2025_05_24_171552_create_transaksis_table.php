@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->string('order_date')->nullable()->default(null);
+            $table->string('name')->nullable()->default(null);
             $table->string('orderId')->nullable()->default(null);
             $table->string('reference')->nullable()->default(null);
             $table->string('paymentUrl')->nullable()->default(null);

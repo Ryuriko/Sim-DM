@@ -31,4 +31,14 @@ class Transaksi extends Model
     {
         return $this->hasMany(Reservasi::class, 'transaksi_id', 'id');
     }
+
+    /**
+     * Get all of the tickets for the Transaksi
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function gym_memberships()
+    {
+        return $this->hasMany(Reservasi::class, 'transaksi_id', 'id');
+    }
 }

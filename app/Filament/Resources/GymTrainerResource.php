@@ -17,6 +17,8 @@ use App\Filament\Resources\GymTrainerResource\RelationManagers;
 
 class GymTrainerResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
+    
     protected static ?string $model = GymTrainer::class;
 
     protected static ?string $pluralModelLabel = 'Pelatih';
