@@ -134,6 +134,10 @@ class PaymentController extends Controller
             return redirect('/gym-pelanggans');
         } else if($transaksi->tipe == 'gym-ots'){
             return redirect('/gym-subscriptions');
+        } else if($transaksi->tipe == 'parkir'){
+            return redirect('/parkir-pelanggans');
+        } else if($transaksi->tipe == 'parkir-ots'){
+            return redirect('/parkirs');
         }
     }
 }

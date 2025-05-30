@@ -67,6 +67,7 @@ class AdminPanelProvider extends PanelProvider
                 'Water Boom',
                 'Hotel',
                 'Gym',
+                'Parkir',
                 'Karyawan Menu',
                 'Pengguna',
                 'Pelindung',
