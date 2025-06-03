@@ -70,8 +70,8 @@
 </script> --}}
 
 <label>Hasil QR Code:</label>
-<input type="text" id="qrResult" readonly className="w-[90vw] md:w-[40vw]">
-<div id="reader" className="w-[90vw] md:w-[40vw]" style="1px solid #ccc;"></div>
+<input type="text" id="qrResult" readonly style="width: 350px;">
+<div id="reader" style="width: 350px; 1px solid #ccc;"></div>
 <br>
 <button id="btnToggleCamera">Nyalakan Kamera</button>
 <button id="btnVerify">Verifikasi Tiket</button>

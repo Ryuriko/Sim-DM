@@ -39,7 +39,7 @@ class TicketController extends Controller
         }    
 
         if ($transaksi->used_at != null) {
-            return response()->json(['message' => 'Tiket sudah digunakan!']);
+            return response()->json(['message' => 'Gagal, tiket sudah digunakan!']);
         }
         
         if($qrcode[0] == 'ticket' || $qrcode[0] == 'ticket-ots') {

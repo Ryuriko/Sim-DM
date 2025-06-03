@@ -72,6 +72,7 @@ class AdminPanelProvider extends PanelProvider
                 'Gym',
                 'Parkir',
                 'Karyawan Menu',
+                'QR Verification',
                 'Pengguna',
                 'Pelindung',
             ]);
