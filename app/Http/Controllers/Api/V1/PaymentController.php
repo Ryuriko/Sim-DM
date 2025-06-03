@@ -107,7 +107,7 @@ class PaymentController extends Controller
 
             QrCode::format('png')
                 ->size(250)
-                ->generate($transaksi['reference']. ' ' .  $transaksi['orderId'], $fullPath);
+                ->generate($transaksi->tipe . ' ' . $transaksi['reference'] . ' ' .  $transaksi['orderId'], $fullPath);
 
             $transaksi->update(['qrcode' => $qrCodePath]);
 

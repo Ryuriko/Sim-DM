@@ -187,6 +187,7 @@ class TicketWaterboomResource extends Resource
     {
         return [
             'index' => Pages\ListTicketWaterbooms::route('/'),
+            'verifikasi' => Pages\VerifikasiTicketWaterboom::route('/verifikasi'),
             // 'create' => Pages\CreateTicketWaterboom::route('/create'),
             // 'edit' => Pages\EditTicketWaterboom::route('/{record}/edit'),
         ];

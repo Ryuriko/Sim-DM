@@ -49,7 +49,7 @@ class ListGymSubscriptions extends ListRecords
 
                     QrCode::format('png')
                         ->size(250)
-                        ->generate($transaksi['reference']. ' ' .  $transaksi['orderId'], $fullPath);
+                        ->generate('gym-ots ' . $transaksi['reference']. ' ' .  $transaksi['orderId'], $fullPath);
                     
                     $transaksi->update(['qrcode' => $qrCodePath]);
                     $record->update([
