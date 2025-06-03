@@ -5,7 +5,7 @@
     <div id="reader" style="width: 350px; 1px solid #ccc;"></div>
     <br>
     <button id="btnToggleCamera">Nyalakan Kamera</button>
-    <button id="btnVerify">Verifikasi Tiket</button>
+    <button id="btnVerify">Verifikasi</button>
     <br><br>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
