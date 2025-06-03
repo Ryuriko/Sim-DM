@@ -18,7 +18,7 @@ class ListGymSubscriptions extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->label('Buat')
+            ->label('Berlangganan')
                 ->modalHeading('Reseravasi Hotel')
                 ->modalSubmitActionLabel('Buat')
                 ->mutateFormDataUsing(function (array $data) {

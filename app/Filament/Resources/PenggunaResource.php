@@ -22,7 +22,7 @@ class PenggunaResource extends Resource
 {
     public static function canAccess(): bool
     {
-        return auth()->user()?->hasRole('super_admin');
+        return auth()->user()?->hasRole(['super_admin', 'Manajer']);
     }
 
     protected static ?string $model = User::class;
@@ -49,12 +49,12 @@ class PenggunaResource extends Resource
                     ->label('Nama')
                     ->required(),
                 TextInput::make('email')
-                    ->unique()
+                    ->unique(ignoreRecord:true)
                     ->email()
                     ->required(),
                 TextInput::make('phone'),
-                TextInput::make('password')
-                    ->minLength(8),
+                // TextInput::make('password')
+                //     ->minLength(8),
                 Select::make('status')
                     ->options([
                         'aktif' => 'Aktif',
@@ -97,7 +97,12 @@ class PenggunaResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['password'] = bcrypt('12345678');
+                        
+                        return $data;
+                    }),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

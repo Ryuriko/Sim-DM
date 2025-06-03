@@ -119,25 +119,29 @@ class PaymentController extends Controller
         //     ]);
         // }
 
-        if($transaksi->tipe == 'ticket'){
-            return redirect('/tickets');
-        } else if($transaksi->tipe == 'ticket-ots'){
-            return redirect('/ticket-waterbooms');
-        } else if($transaksi->tipe == 'reservasi'){
-            return redirect('/reservasi-pelanggans');
-        } else if($transaksi->tipe == 'reservasi-ots'){
-            return redirect('/reservasis');
-        } else if($transaksi->tipe == 'gym'){
-            $gym = GymSubscription::where('transaksi_id', $transaksi->id)->first();
-            $gym->update(['status' => 'aktif']);
-
-            return redirect('/gym-pelanggans');
-        } else if($transaksi->tipe == 'gym-ots'){
-            return redirect('/gym-subscriptions');
-        } else if($transaksi->tipe == 'parkir'){
-            return redirect('/parkir-pelanggans');
-        } else if($transaksi->tipe == 'parkir-ots'){
-            return redirect('/parkirs');
+        if($transaksi != null) {
+            if($transaksi->tipe == 'ticket'){
+                return redirect('/tickets');
+            } else if($transaksi->tipe == 'ticket-ots'){
+                return redirect('/ticket-waterbooms');
+            } else if($transaksi->tipe == 'reservasi'){
+                return redirect('/reservasi-pelanggans');
+            } else if($transaksi->tipe == 'reservasi-ots'){
+                return redirect('/reservasis');
+            } else if($transaksi->tipe == 'gym'){
+                $gym = GymSubscription::where('transaksi_id', $transaksi->id)->first();
+                $gym->update(['status' => 'aktif']);
+    
+                return redirect('/gym-pelanggans');
+            } else if($transaksi->tipe == 'gym-ots'){
+                return redirect('/gym-subscriptions');
+            } else if($transaksi->tipe == 'parkir'){
+                return redirect('/parkir-pelanggans');
+            } else if($transaksi->tipe == 'parkir-ots'){
+                return redirect('/parkirs');
+            } 
+        } else {
+            return redirect('/');
         }
     }
 }

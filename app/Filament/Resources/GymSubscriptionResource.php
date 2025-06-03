@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\GymSubscriptionResource\Pages;
 use App\Filament\Resources\GymSubscriptionResource\RelationManagers;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class GymSubscriptionResource extends Resource
 {
@@ -51,6 +52,7 @@ class GymSubscriptionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(GymSubscription::where('status', 'aktif'))
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable()
@@ -84,6 +86,23 @@ class GymSubscriptionResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('qrcode')
+                    ->hidden(fn ($record) => $record->transaksi->status == 'unpaid')
+                    ->label('QR')
+                    ->color('gray')
+                    ->icon('heroicon-o-qr-code')
+                    ->modalHeading('QR Code')
+                    ->modalSubmitAction(false)
+                    ->modalContent(fn ($record) => view('custom.qr-modal', [
+                        'qrUrl' => Storage::url($record->transaksi->qrcode),
+                    ])),
+                Tables\Actions\Action::make('bayar')
+                    ->hidden(fn ($record) => $record->transaksi->status == 'ots')
+                    ->icon('heroicon-o-banknotes')
+                    ->label('Pembayaran')
+                    ->color('success')
+                    ->url(fn ($record) => $record->transaksi->paymentUrl)
+                    ->openUrlInNewTab(),
                 Tables\Actions\EditAction::make()
                     ->mutateFormDataUsing(function (array $data) {
                         $data['tgl_selesai'] = Carbon::parse($data['tgl_mulai'])->copy()->addMonth();

@@ -38,10 +38,10 @@ class BarangResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('kode')
-                    // ->default()
-                    ->unique(ignoreRecord: true)
-                    ->required(),
+                // Forms\Components\TextInput::make('kode')
+                //     // ->default()
+                //     ->unique(ignoreRecord: true)
+                //     ->required(),
                 Forms\Components\TextInput::make('nama')
                     ->required(),
                 Forms\Components\Select::make('kategori_id')
@@ -94,7 +94,7 @@ class BarangResource extends Resource
                 Tables\Columns\TextColumn::make('merk'),
                 Tables\Columns\TextColumn::make('stok')
                     ->badge()
-                    ->color('gray')
+                    ->color('success')
                     ->numeric(),
                 Tables\Columns\TextColumn::make('satuan')
                     ->numeric(),

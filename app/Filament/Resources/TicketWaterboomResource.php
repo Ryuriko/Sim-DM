@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TicketWaterboomResource\Pages;
 use App\Filament\Resources\TicketWaterboomResource\RelationManagers;
 use App\Models\Ticket;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -97,7 +98,13 @@ class TicketWaterboomResource extends Resource
                     ->label('Total Harga')
                     ->money('Rp. ')
                     ->state(function (Ticket $record): float{
-                        return (int)$record->qty * 35000;
+                        $date = Carbon::parse($record['date']);
+                        if ($date->isWeekend()) {
+                            $price = 35000;
+                        } else {
+                            $price = 33000;
+                        }
+                        return (int)$record->qty * (int)$price;
                     }),
             ])
             ->filters([

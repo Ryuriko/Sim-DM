@@ -25,12 +25,16 @@ class PenggajianSeeder extends Seeder
         })->get();
 
         foreach ($users as $user) {
+            $salary = 0;
+            foreach ($user->roles as $role) {
+                $salary = (int)$salary + (int)$role->salary;
+            }
             Penggajian::create([
                 'user_id' => $user->id,
                 'bulan' => $bulan,
                 'tahun' => $tahun,
-                'gaji_pokok' => $user->role->salary,
-                'gaji_total' => $user->role->salary,
+                'gaji_pokok' => $salary,
+                'gaji_total' => $salary,
             ]);
         }
     }

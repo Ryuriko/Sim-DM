@@ -130,6 +130,9 @@ class ReservasiResource extends Resource
                     ->date(),
                 TextColumn::make('checkout')
                     ->date(),
+                TextColumn::make('kamars.no')
+                    ->label('Kamar')
+                    ->listWithLineBreaks(),
                 // TextColumn::make('kamars.no')
                 //     ->label('Kamar')
                 //     ->getStateUsing(function ($record) {

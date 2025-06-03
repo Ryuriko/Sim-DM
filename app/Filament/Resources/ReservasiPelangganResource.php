@@ -98,9 +98,11 @@ class ReservasiPelangganResource extends Resource
             ->columns([
                TextColumn::make('transaksi.orderId')
                     ->label('Order ID'),
-                TextColumn::make('user.name')
-                    ->label('Nama'),
+                // TextColumn::make('user.name')
+                //     ->label('Nama'),
                 TextColumn::make('person_qty')
+                    ->badge()
+                    ->color('success')
                     ->label('Jumlah Orang'),
                 TextColumn::make('transaksi.order_date')
                     ->date()

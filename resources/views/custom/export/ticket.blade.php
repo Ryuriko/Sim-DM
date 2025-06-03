@@ -34,7 +34,14 @@
             <td align="center">{{ $data->transaksi->paid_at }}</td>
             <td align="center">{{ $data->transaksi->used_at }}</td>
             <?php
-                $harga = (int)$data->qty * 35000;
+                $price = 0;
+                $date = Carbon\Carbon::parse($data->date);
+                if ($date->isWeekend()) {
+                    $price = 35000;
+                } else {
+                    $price = 33000;
+                }
+                $harga = (int)$data->qty * $price;
                 
                 $total = $total + ($data->transaksi->status == 'paid' ? $harga : 0);
             ?>

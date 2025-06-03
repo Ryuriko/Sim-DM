@@ -76,7 +76,10 @@ class CutiKaryawanResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->hidden(fn($record) => $record->status == 'disetujui'),
+                Tables\Actions\DeleteAction::make()
+                    ->hidden(fn($record) => $record->status == 'disetujui'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

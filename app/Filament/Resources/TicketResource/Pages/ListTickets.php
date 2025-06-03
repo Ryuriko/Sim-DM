@@ -5,6 +5,7 @@ namespace App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource;
 use App\Http\Controllers\Api\V1\PaymentController;
 use App\Models\Transaksi;
+use Carbon\Carbon;
 use Filament\Actions;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
@@ -20,7 +21,7 @@ class ListTickets extends ListRecords
             Actions\CreateAction::make()
                 ->label('Beli')
                 ->modalHeading('Beli Tiket')
-                ->modalDescription('Harga satu tiket adalah Rp. ' . number_format((float)env('TICKET'), 0, ',', '.') . ' ,-')
+                ->modalDescription('Harga satu tiket adalah Rp. 35.000 untuk weekend dan Rp. 33.000 untuk weekeday')
                 ->modalSubmitActionLabel('Lanjutkan Ke Pembayaran')
                 ->mutateFormDataUsing(function (array $data) {
                     $data['user_id'] = auth()->user()->id;
@@ -29,10 +30,18 @@ class ListTickets extends ListRecords
                 })
                 ->successRedirectUrl(function (Model $record) {
                     try {
+                        $date = Carbon::parse($record['date']);
+                        if ($date->isWeekend()) {
+                            $price = 35000;
+                        } else {
+                            $price = 33000;
+                        }
+
+                        
                         $paymentController = new PaymentController;
     
                         $user = auth()->user();
-                        $paymentAmount = (int)env('TICKET') * (int)$record->qty;
+                        $paymentAmount = (int)$price * (int)$record->qty;
                         $productDetails = 'Pembelian Ticket Masuk Waterboom DM Tirta Persada';
                         $email = $user->email;
                         $customerVaName = $user->name;
