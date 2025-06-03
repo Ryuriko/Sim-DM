@@ -1,7 +1,7 @@
 <x-filament-panels::page>
 
     <label>Hasil QR Code:</label>
-    <input type="text" id="qrResult" readonly style="width: 350px; color: lightgreen;">
+    <input type="text" id="qrResult" readonly style="width: 350px; color: green;">
     <div id="reader" style="width: 350px; 1px solid #ccc;"></div>
     <br>
     <button id="btnToggleCamera">Nyalakan Kamera</button>
