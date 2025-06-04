@@ -22,7 +22,7 @@ class GymSubscriptionResource extends Resource
 {
     public static function canAccess(): bool
     {
-        return !auth()->user()?->hasRole('User');
+        return auth()->user()?->hasRole('Manajer');
     }
     protected static ?string $model = GymSubscription::class;
 

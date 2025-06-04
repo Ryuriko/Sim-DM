@@ -18,7 +18,7 @@ class QrVerificationResource extends Resource
 {
     public static function canAccess(): bool
     {
-        return !auth()->user()?->hasRole(['User', 'karyawan']);
+        return !auth()->user()?->hasRole(['User', 'Karyawan']);
     }
 
     protected static ?string $model = Transaksi::class;

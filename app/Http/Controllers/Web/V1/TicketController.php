@@ -71,7 +71,7 @@ class TicketController extends Controller
 
         $transaksi->update(['used_at' => now()]);
 
-        return response()->json(['message' => 'Tiket berhasil digunakan.']);
+        return response()->json(['message' => 'Tiket berhasil digunakan!']);
     }
 
 }
