@@ -23,7 +23,7 @@ class ListGymPelanggans extends ListRecords
             Actions\CreateAction::make()
                 ->label('Berlangganan')
                 ->modalHeading('Berlangganan Gym')
-                ->modalSubmitActionLabel('Buat')
+                ->modalSubmitActionLabel('Lanjutkan ke pembayaran')
                 ->mutateFormDataUsing(function (array $data) {
                     $data['user_id'] = auth()->user()->id;
                     $data['tgl_selesai'] = Carbon::parse($data['tgl_mulai'])->copy()->addMonth();

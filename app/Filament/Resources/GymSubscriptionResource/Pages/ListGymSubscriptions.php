@@ -18,8 +18,8 @@ class ListGymSubscriptions extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->label('Berlangganan')
-                ->modalHeading('Reseravasi Hotel')
+            ->label('Buat')
+                ->modalHeading('Membership Gym')
                 ->modalSubmitActionLabel('Buat')
                 ->mutateFormDataUsing(function (array $data) {
                     $data['tgl_selesai'] = Carbon::parse($data['tgl_mulai'])->copy()->addMonth();

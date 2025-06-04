@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Storage;
 
 class GymSubscriptionResource extends Resource
 {
+    public static function canAccess(): bool
+    {
+        return !auth()->user()?->hasRole('User');
+    }
     protected static ?string $model = GymSubscription::class;
 
     protected static ?string $pluralModelLabel = 'Membership';
@@ -86,29 +90,29 @@ class GymSubscriptionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('qrcode')
-                    ->hidden(fn ($record) => $record->transaksi->status == 'unpaid')
-                    ->label('QR')
-                    ->color('gray')
-                    ->icon('heroicon-o-qr-code')
-                    ->modalHeading('QR Code')
-                    ->modalSubmitAction(false)
-                    ->modalContent(fn ($record) => view('custom.qr-modal', [
-                        'qrUrl' => Storage::url($record->transaksi->qrcode),
-                    ])),
-                Tables\Actions\Action::make('bayar')
-                    ->hidden(fn ($record) => $record->transaksi->status == 'ots')
-                    ->icon('heroicon-o-banknotes')
-                    ->label('Pembayaran')
-                    ->color('success')
-                    ->url(fn ($record) => $record->transaksi->paymentUrl)
-                    ->openUrlInNewTab(),
-                Tables\Actions\EditAction::make()
-                    ->mutateFormDataUsing(function (array $data) {
-                        $data['tgl_selesai'] = Carbon::parse($data['tgl_mulai'])->copy()->addMonth();
+                // Tables\Actions\Action::make('qrcode')
+                //     ->hidden(fn ($record) => $record->transaksi->status == 'unpaid')
+                //     ->label('QR')
+                //     ->color('gray')
+                //     ->icon('heroicon-o-qr-code')
+                //     ->modalHeading('QR Code')
+                //     ->modalSubmitAction(false)
+                //     ->modalContent(fn ($record) => view('custom.qr-modal', [
+                //         'qrUrl' => Storage::url($record->transaksi->qrcode),
+                //     ])),
+                // Tables\Actions\Action::make('bayar')
+                //     ->hidden(fn ($record) => $record->transaksi->status == 'ots')
+                //     ->icon('heroicon-o-banknotes')
+                //     ->label('Pembayaran')
+                //     ->color('success')
+                //     ->url(fn ($record) => $record->transaksi->paymentUrl)
+                //     ->openUrlInNewTab(),
+                // Tables\Actions\EditAction::make()
+                //     ->mutateFormDataUsing(function (array $data) {
+                //         $data['tgl_selesai'] = Carbon::parse($data['tgl_mulai'])->copy()->addMonth();
 
-                        return $data;
-                    }),
+                //         return $data;
+                //     }),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

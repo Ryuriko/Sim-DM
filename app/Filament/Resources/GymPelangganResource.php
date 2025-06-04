@@ -72,6 +72,15 @@ class GymPelangganResource extends Resource
                         'aktif' => 'success',
                         'tidak aktif' => 'danger',
                     }),
+                Tables\Columns\TextColumn::make('transaksi.status')
+                    ->label('Status Pembayaran')
+                    ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'paid' => 'success',
+                        'unpaid' => 'danger',
+                        'ots' => 'gray',
+                    }),
             ])
             ->filters([
                 //

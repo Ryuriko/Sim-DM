@@ -129,8 +129,10 @@ class PaymentController extends Controller
             } else if($transaksi->tipe == 'reservasi-ots'){
                 return redirect('/reservasis');
             } else if($transaksi->tipe == 'gym'){
-                $gym = GymSubscription::where('transaksi_id', $transaksi->id)->first();
-                $gym->update(['status' => 'aktif']);
+                if($data['resultCode'] == 00) {
+                    $gym = GymSubscription::where('transaksi_id', $transaksi->id)->first();
+                    $gym->update(['status' => 'aktif']);
+                }
     
                 return redirect('/gym-pelanggans');
             } else if($transaksi->tipe == 'gym-ots'){
