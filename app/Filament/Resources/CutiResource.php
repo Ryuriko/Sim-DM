@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CutiResource\Pages;
 use App\Filament\Resources\CutiResource\RelationManagers;
 use App\Models\Cuti;
+use App\Models\ManajemenCuti;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -19,13 +20,13 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CutiResource extends Resource
 {
-    protected static ?string $model = Cuti::class;
+    protected static ?string $model = ManajemenCuti::class;
 
-    protected static ?string $pluralModelLabel = 'Cuti';
+    protected static ?string $pluralModelLabel = 'Manajemen Cuti';
 
-    protected static ?string $modelLabel = 'Cuti';
+    protected static ?string $modelLabel = 'Manajemen Cuti';
 
-    protected static ?string $navigationLabel = 'Cuti';
+    protected static ?string $navigationLabel = 'Manajemen Cuti';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 

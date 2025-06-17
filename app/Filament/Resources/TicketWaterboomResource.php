@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TicketWaterboomResource\Pages;
 use App\Filament\Resources\TicketWaterboomResource\RelationManagers;
+use App\Models\ManajemenTicket;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -22,18 +23,13 @@ use Illuminate\Support\Facades\Storage;
 
 class TicketWaterboomResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole(['Manajer', 'Admin']);
-    }
+    protected static ?string $model = ManajemenTicket::class;
 
-    protected static ?string $model = Ticket::class;
+    protected static ?string $pluralModelLabel = 'Manajemen Tiket';
 
-    protected static ?string $pluralModelLabel = 'Tiket';
+    protected static ?string $modelLabel = 'Manajemen Tiket';
 
-    protected static ?string $modelLabel = 'Tiket';
-
-    protected static ?string $navigationLabel = 'Tiket';
+    protected static ?string $navigationLabel = 'Manajemen Tiket';
 
     protected static ?string $navigationIcon = 'heroicon-o-ticket';
 

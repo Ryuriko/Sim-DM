@@ -15,24 +15,20 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ParkirResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ParkirResource\RelationManagers;
+use App\Models\ManajemenParkir;
 use App\Models\Transaksi;
 use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Support\Facades\Storage;
 
 class ParkirResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole('Manajer');
-    }
+    protected static ?string $model = ManajemenParkir::class;
 
-    protected static ?string $model = Parkir::class;
+    protected static ?string $pluralModelLabel = 'Manajemen Parkir';
 
-    protected static ?string $pluralModelLabel = 'Parkir';
+    protected static ?string $modelLabel = 'Manajemen Parkir';
 
-    protected static ?string $modelLabel = 'Parkir';
-
-    protected static ?string $navigationLabel = 'Parkir';
+    protected static ?string $navigationLabel = 'Manajemen Parkir';
 
     protected static ?string $navigationIcon = 'heroicon-o-truck';
 

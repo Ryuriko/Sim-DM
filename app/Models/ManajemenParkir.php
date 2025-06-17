@@ -3,17 +3,15 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\Kamar;
 use App\Models\Transaksi;
-use App\Models\ReservasiDate;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Reservasi extends Model
+class ManajemenParkir extends Model
 {
+    protected $table = 'parkirs';
+
     use HasFactory;
 
      /**
@@ -35,17 +33,4 @@ class Reservasi extends Model
     {
         return $this->belongsTo(Transaksi::class, 'transaksi_id', 'id');
     }
-
-
-    /**
-     * The kamars that belong to the Reservasi
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function kamars()
-    {
-        return $this->belongsToMany(Kamar::class, 'reservasi_kamars', 'reservasi_id', 'kamar_id')
-            ->withPivot('date')
-            ->withTimestamps();
-    }   
 }

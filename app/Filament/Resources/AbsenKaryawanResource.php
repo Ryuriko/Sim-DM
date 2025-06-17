@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AbsenKaryawanResource\Pages;
 use App\Filament\Resources\AbsenKaryawanResource\RelationManagers;
+use App\Models\Absensi;
 use App\Models\AbsenUser;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,12 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AbsenKaryawanResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole(['Karyawan', 'Manajer', 'Gudang', 'Admin']);
-    }
-
-    protected static ?string $model = AbsenUser::class;
+    protected static ?string $model = Absensi::class;
     
     protected static ?string $pluralModelLabel = 'Absensi';
 

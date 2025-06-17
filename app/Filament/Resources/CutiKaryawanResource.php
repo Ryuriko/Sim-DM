@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CutiKaryawanResource\Pages;
 use App\Filament\Resources\CutiKaryawanResource\RelationManagers;
+use App\Models\Cuti;
 use App\Models\CutiKaryawan;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,12 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CutiKaryawanResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole(['Karyawan', 'Manajer', 'Gudang', 'Admin']);
-    }
-
-    protected static ?string $model = CutiKaryawan::class;
+    protected static ?string $model = Cuti::class;
     
     protected static ?string $pluralModelLabel = 'Cuti';
 

@@ -22,11 +22,6 @@ use Illuminate\Support\Facades\Storage;
 
 class GymPelangganResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole('User');
-    }
-
     protected static ?string $model = GymSubscription::class;
 
     protected static ?string $pluralModelLabel = 'Membership';
