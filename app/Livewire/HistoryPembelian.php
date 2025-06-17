@@ -28,6 +28,9 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 use App\Models\HistoryPembelian as HistoryPembelianModel;
+use Filament\Forms\Components\Textarea;
+
+use function Laravel\Prompts\textarea;
 
 class HistoryPembelian extends Component implements HasForms, HasTable
 {
@@ -38,6 +41,7 @@ class HistoryPembelian extends Component implements HasForms, HasTable
         'kode' => '',
         'tgl' => '',
         'harga_total' => '',
+        'ket' => '',
         'status' => '',
     ];
 
@@ -67,6 +71,8 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                         'selesai' => 'success',
                         'pending' => 'warning',
                     }),
+                TextColumn::make('ket')
+                    ->label('Keterangan'),
             ])
             ->filters([
                 //
@@ -79,9 +85,6 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                     ->form([
                         Grid::make()
                         ->schema([
-                            TextInput::make('kode')
-                                ->unique(ignoreRecord: true)
-                                ->required(),
                             DateTimePicker::make('tgl')
                                 ->label('Tanggal')
                                 ->required(),
@@ -91,6 +94,8 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                                     'selesai' => 'Selesai'
                                 ])
                                 ->required(),
+                            Textarea::make('ket')
+                                ->label('Keteragan')
                         ])
                     ]),
                 DeleteAction::make()
@@ -118,9 +123,9 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                         Grid::make()
                             ->columns(2)
                             ->schema([
-                                TextInput::make('kode')
-                                    ->unique(ignoreRecord: true)
-                                    ->required(),
+                                // TextInput::make('kode')
+                                //     ->unique(ignoreRecord: true)
+                                //     ->required(),
                                 DateTimePicker::make('tgl')
                                     ->label('Tanggal')
                                     ->required(),
@@ -130,8 +135,13 @@ class HistoryPembelian extends Component implements HasForms, HasTable
                                         'selesai' => 'Selesai'
                                     ])
                                     ->required(),
+                                Textarea::make('ket')
+                                    ->label('Keterangan'),
                         ])
-                ]),
+                    ])
+                    ->after(function ($record) {
+                        $record->update(['kode' => 'PBL00' . $record->id]);
+                    }),
             ])
             ->bulkActions([
                 BulkActionGroup::make([

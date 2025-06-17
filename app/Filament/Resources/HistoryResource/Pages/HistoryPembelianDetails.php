@@ -69,6 +69,8 @@ class HistoryPembelianDetails extends Page implements HasForms, HasTable
                 TextColumn::make('supplier.nama')
                     ->label('Supplier'),
                 TextColumn::make('jumlah')
+                    ->badge()
+                    ->color('success')
                     ->numeric(),
                 TextColumn::make('harga_satuan')
                     ->label('Harga Satuan')

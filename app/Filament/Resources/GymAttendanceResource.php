@@ -20,6 +20,8 @@ use App\Filament\Resources\GymAttendanceResource\RelationManagers;
 
 class GymAttendanceResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
+    
     protected static ?string $model = GymAttendance::class;
 
     protected static ?string $pluralModelLabel = 'Kehadiran';

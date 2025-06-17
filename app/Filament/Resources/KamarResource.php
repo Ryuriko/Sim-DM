@@ -47,9 +47,9 @@ class KamarResource extends Resource
                     ->label('Tipe Kamar')
                     ->options(TipeKamar::query()->pluck('nama', 'id'))
                     ->required(),
-                Forms\Components\TextInput::make('lantai')
-                    ->numeric()
-                    ->required(),
+                // Forms\Components\TextInput::make('lantai')
+                //     ->numeric()
+                //     ->required(),
                 Forms\Components\Select::make('status')
                     ->options([
                         'tersedia' => 'Tersedia',
@@ -89,7 +89,7 @@ class KamarResource extends Resource
                     ->label('No Kamar'),
                 Tables\Columns\TextColumn::make('tipe.nama')
                     ->label('Tipe Kamar'),
-                Tables\Columns\TextColumn::make('lantai'),
+                // Tables\Columns\TextColumn::make('lantai'),
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
                     ->badge()

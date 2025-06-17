@@ -67,7 +67,8 @@ class PenggajianResource extends Resource
         return $table
             ->query(
                 User::query()->whereDoesntHave('roles', function($query) {
-                    $query->where('name', 'super_admin');
+                    $query->where('name', 'super_admin')
+                        ->orWhere('name', 'User');
                 })
                 ->with('penggajians', function($query) {
                     $tahun = Session::get('filteredTahun') ?? Carbon::now()->year;
@@ -80,9 +81,10 @@ class PenggajianResource extends Resource
                 TextColumn::make('name')
                     ->searchable()
                     ->label('Nama'),
-                TextColumn::make('role.name')
+                TextColumn::make('roles.name')
                     ->formatStateUsing(fn (string $state): string => ucwords(strtolower($state)))
-                    ->color('gray')
+                    ->badge()
+                    ->color('success')
                     ->label('Jabatan'),
                 TextColumn::make('penggajians.bulan')
                     ->label('Bulan'),

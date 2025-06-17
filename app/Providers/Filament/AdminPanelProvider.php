@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\UserResource\Pages\Register;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,8 +28,10 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('/')
             ->login()
+            ->registration(Register::class)
+            // ->emailVerification()
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -64,8 +67,14 @@ class AdminPanelProvider extends PanelProvider
                 'Web',
                 'Karyawan',
                 'Inventory',
+                'Water Boom',
                 'Hotel',
                 'Gym',
+                'Parkir',
+                'Karyawan Menu',
+                'QR Verification',
+                'Pengguna',
+                'Pelindung',
             ]);
     }
 }

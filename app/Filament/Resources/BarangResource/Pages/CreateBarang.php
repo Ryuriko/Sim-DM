@@ -14,4 +14,10 @@ class CreateBarang extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function afterCreate(): void
+    {
+        $record = $this->record;
+        $record->update(['kode' => 'BR00' . $record->id]);
+    }
 }

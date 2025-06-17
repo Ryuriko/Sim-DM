@@ -42,9 +42,9 @@ class HistoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('kode')
-                    ->unique(ignoreRecord: true)
-                    ->required(),
+                // Forms\Components\TextInput::make('kode')
+                //     ->unique(ignoreRecord: true)
+                //     ->required(),
                 Forms\Components\DateTimePicker::make('tgl')
                     ->label('Tanggal')
                     ->required(),
@@ -97,6 +97,9 @@ class HistoryResource extends Resource
             ->headerActions([
                 CreateAction::make()
                     ->label('New Penggunaan')
+                    ->after(function ($record) {
+                        $record->update(['kode' => 'PGN00' . $record->id]);
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

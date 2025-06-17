@@ -16,6 +16,8 @@ use App\Filament\Resources\CompanyProfileResource\RelationManagers;
 
 class CompanyProfileResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
+    
     protected static ?string $model = CompanyProfile::class;
 
     protected static ?string $pluralModelLabel = 'Company Profile';
