@@ -15,6 +15,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AbsenKaryawanResource extends Resource
 {
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->hasRole(['Karyawan', 'Manajer', 'Gudang', 'Admin']);
+    }
+
     protected static ?string $model = AbsenUser::class;
     
     protected static ?string $pluralModelLabel = 'Absensi';
@@ -36,7 +41,7 @@ class AbsenKaryawanResource extends Resource
         return $form
             ->schema([
                 //
-            ]);
+        ]);
     }
 
     public static function table(Table $table): Table

@@ -16,6 +16,8 @@ use App\Filament\Resources\GymClassResource\RelationManagers;
 
 class GymClassResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
+    
     protected static ?string $model = GymClass::class;
 
     protected static ?string $pluralModelLabel = 'Kelas';

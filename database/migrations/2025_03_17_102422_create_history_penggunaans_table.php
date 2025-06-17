@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('history_penggunaans', function (Blueprint $table) {
             $table->id();
-            $table->string('kode', 100)->unique();
+            $table->string('kode')->nullable()->default(null);
             $table->string('tgl')->nullable()->default(null);
             $table->string('total_barang')->nullable()->default(0);
             $table->string('ket')->nullable()->default(null);

@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Cuti;
 use App\Models\Absensi;
 use App\Models\Penggajian;
+use App\Models\GymSubscription;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -88,5 +89,25 @@ class User extends Authenticatable
     public function cutis()
     {
         return $this->hasMany(Cuti::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the tickets for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the tickets for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function gym_members()
+    {
+        return $this->hasMany(GymSubscription::class, 'user_id', 'id');
     }
 }

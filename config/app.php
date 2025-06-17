@@ -3,6 +3,17 @@
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
+
+// Set up duitku
+$duitkuConfig = new \Duitku\Config("YOUR_MERCHANT_KEY", "YOUR_MERCHANT_CODE");
+// false for production mode
+// true for sandbox mode
+$duitkuConfig->setSandboxMode(true);
+// set sanitizer (default : true)
+$duitkuConfig->setSanitizedMode(false);
+// set log parameter (default : true)
+$duitkuConfig->setDuitkuLogs(false);
+
 return [
 
     /*
@@ -187,3 +198,4 @@ return [
     ])->toArray(),
 
 ];
+

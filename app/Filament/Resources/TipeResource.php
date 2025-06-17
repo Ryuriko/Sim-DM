@@ -28,8 +28,6 @@ class TipeResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-m-building-office-2';
 
-    // protected static ?string $navigationParentItem = 'Kamar';
-
     protected static ?string $navigationGroup = 'Hotel';
 
     protected static ?int $navigationSort = 1;

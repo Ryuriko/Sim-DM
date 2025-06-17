@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class GymMemberResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
+    
     protected static ?string $model = GymMember::class;
 
     protected static ?string $pluralModelLabel = 'Member';

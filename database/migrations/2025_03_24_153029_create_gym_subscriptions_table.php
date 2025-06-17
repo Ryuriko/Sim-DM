@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('gym_subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('member_id')->nullable()->default(null);
-            $table->unsignedInteger('paket_id')->nullable()->default(null);
+            $table->unsignedInteger('user_id')->nullable()->default(null);
+            $table->unsignedInteger('transaksi_id')->nullable()->default(null);
+            // $table->unsignedInteger('paket_id')->nullable()->default(null);
             $table->string('tgl_mulai', 100)->nullable()->default(null);
             $table->string('tgl_selesai', 100)->nullable()->default(null);
+            $table->enum('status', ['aktif', 'tidak aktif'])->nullable()->default('tidak aktif');
             $table->timestamps();
 
-            $table->index('member_id');
-            $table->index('paket_id');
+            $table->index('user_id');
+            // $table->index('paket_id');
         });
     }
 

@@ -11,13 +11,13 @@ class GymPaket extends Model
 {
     use HasFactory;
 
-    /**
-     * Get all of the subscriptions for the GymPaket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function subscriptions()
-    {
-        return $this->hasMany(GymSubscription::class, 'paket_id', 'id');
-    }
+    // /**
+    //  * Get all of the subscriptions for the GymPaket
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    //  */
+    // public function subscriptions()
+    // {
+    //     return $this->hasMany(GymSubscription::class, 'paket_id', 'id');
+    // }
 }
