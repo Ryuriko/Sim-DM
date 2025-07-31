@@ -20,18 +20,13 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PenggunaResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole(['super_admin', 'Manajer']);
-    }
-
     protected static ?string $model = User::class;
 
-    protected static ?string $pluralModelLabel = 'Pengguna';
+    protected static ?string $pluralModelLabel = 'Manajemen Pengguna';
 
-    protected static ?string $modelLabel = 'Pengguna';
+    protected static ?string $modelLabel = 'Manajemen Pengguna';
 
-    protected static ?string $navigationLabel = 'Pengguna';
+    protected static ?string $navigationLabel = 'Manajemen Pengguna';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 

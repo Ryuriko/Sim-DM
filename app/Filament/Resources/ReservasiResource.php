@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ReservasiResource\Pages;
 use App\Filament\Resources\ReservasiResource\RelationManagers;
 use App\Models\Kamar;
+use App\Models\ManajemenReservasi;
 use App\Models\Reservasi;
 use App\Models\ReservasiKamar;
 use Carbon\Carbon;
@@ -28,19 +29,14 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class ReservasiResource extends Resource
-{
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole(['Admin', 'Manajer']);
-    }
-    
-    protected static ?string $model = Reservasi::class;
+{  
+    protected static ?string $model = ManajemenReservasi::class;
 
-    protected static ?string $pluralModelLabel = 'Reservasi';
+    protected static ?string $pluralModelLabel = 'Manajemen Reservasi';
 
-    protected static ?string $modelLabel = 'Reservasi';
+    protected static ?string $modelLabel = 'Manajemen Reservasi';
 
-    protected static ?string $navigationLabel = 'Reservasi';
+    protected static ?string $navigationLabel = 'Manajemen Reservasi';
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 

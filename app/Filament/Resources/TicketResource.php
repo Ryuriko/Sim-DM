@@ -17,10 +17,7 @@ use Illuminate\Support\Collection;
 
 class TicketResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole(['User']);
-    }
+    protected static ?string $model = Ticket::class;
 
     protected static ?string $pluralModelLabel = 'Tiket';
 

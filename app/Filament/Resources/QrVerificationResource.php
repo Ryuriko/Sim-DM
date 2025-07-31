@@ -16,11 +16,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class QrVerificationResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return !auth()->user()?->hasRole(['User', 'Karyawan']);
-    }
-
     protected static ?string $model = Transaksi::class;
 
     protected static ?string $pluralModelLabel = 'QR Verification';

@@ -27,11 +27,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ReservasiPelangganResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole('User');
-    }
-    
     protected static ?string $model = Reservasi::class;
 
     protected static ?string $pluralModelLabel = 'Reservasi';

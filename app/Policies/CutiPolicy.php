@@ -15,7 +15,7 @@ class CutiPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_cuti');
+        return $user->can('view_any_cuti::karyawan');
     }
 
     /**
@@ -23,7 +23,7 @@ class CutiPolicy
      */
     public function view(User $user, Cuti $cuti): bool
     {
-        return $user->can('view_cuti');
+        return $user->can('view_cuti::karyawan');
     }
 
     /**
@@ -31,7 +31,7 @@ class CutiPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_cuti');
+        return $user->can('create_cuti::karyawan');
     }
 
     /**
@@ -39,7 +39,7 @@ class CutiPolicy
      */
     public function update(User $user, Cuti $cuti): bool
     {
-        return $user->can('update_cuti');
+        return $user->can('update_cuti::karyawan');
     }
 
     /**
@@ -47,7 +47,7 @@ class CutiPolicy
      */
     public function delete(User $user, Cuti $cuti): bool
     {
-        return $user->can('delete_cuti');
+        return $user->can('delete_cuti::karyawan');
     }
 
     /**
@@ -55,7 +55,7 @@ class CutiPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_cuti');
+        return $user->can('delete_any_cuti::karyawan');
     }
 
     /**
@@ -63,7 +63,7 @@ class CutiPolicy
      */
     public function forceDelete(User $user, Cuti $cuti): bool
     {
-        return $user->can('force_delete_cuti');
+        return $user->can('force_delete_cuti::karyawan');
     }
 
     /**
@@ -71,7 +71,7 @@ class CutiPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_cuti');
+        return $user->can('force_delete_any_cuti::karyawan');
     }
 
     /**
@@ -79,7 +79,7 @@ class CutiPolicy
      */
     public function restore(User $user, Cuti $cuti): bool
     {
-        return $user->can('restore_cuti');
+        return $user->can('restore_cuti::karyawan');
     }
 
     /**
@@ -87,7 +87,7 @@ class CutiPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_cuti');
+        return $user->can('restore_any_cuti::karyawan');
     }
 
     /**
@@ -95,7 +95,7 @@ class CutiPolicy
      */
     public function replicate(User $user, Cuti $cuti): bool
     {
-        return $user->can('replicate_cuti');
+        return $user->can('replicate_cuti::karyawan');
     }
 
     /**
@@ -103,6 +103,6 @@ class CutiPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_cuti');
+        return $user->can('reorder_cuti::karyawan');
     }
 }

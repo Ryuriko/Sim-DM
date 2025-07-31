@@ -17,11 +17,6 @@ use App\Filament\Resources\ParkirPelangganResource\RelationManagers;
 
 class ParkirPelangganResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole(['User']);
-    }
-
     protected static ?string $model = Parkir::class;
 
     protected static ?string $pluralModelLabel = 'Parkir';

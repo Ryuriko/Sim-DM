@@ -11,7 +11,6 @@ class Helper
 {
     public static function updateStok($id, $data, $opr, $page = null)
     {
-        // dd($opr);
         try{
             $barang = Barang::find($data['barang_id']);
             $subtotal = 0;

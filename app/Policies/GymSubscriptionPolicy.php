@@ -15,7 +15,7 @@ class GymSubscriptionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_gym::subscription');
+        return $user->can('view_any_gym::pelanggan');
     }
 
     /**
@@ -23,7 +23,7 @@ class GymSubscriptionPolicy
      */
     public function view(User $user, GymSubscription $gymSubscription): bool
     {
-        return $user->can('view_gym::subscription');
+        return $user->can('view_gym::pelanggan');
     }
 
     /**
@@ -31,7 +31,7 @@ class GymSubscriptionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_gym::subscription');
+        return $user->can('create_gym::pelanggan');
     }
 
     /**
@@ -39,7 +39,7 @@ class GymSubscriptionPolicy
      */
     public function update(User $user, GymSubscription $gymSubscription): bool
     {
-        return $user->can('update_gym::subscription');
+        return $user->can('update_gym::pelanggan');
     }
 
     /**
@@ -47,7 +47,7 @@ class GymSubscriptionPolicy
      */
     public function delete(User $user, GymSubscription $gymSubscription): bool
     {
-        return $user->can('delete_gym::subscription');
+        return $user->can('delete_gym::pelanggan');
     }
 
     /**
@@ -55,7 +55,7 @@ class GymSubscriptionPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_gym::subscription');
+        return $user->can('delete_any_gym::pelanggan');
     }
 
     /**
@@ -63,7 +63,7 @@ class GymSubscriptionPolicy
      */
     public function forceDelete(User $user, GymSubscription $gymSubscription): bool
     {
-        return $user->can('force_delete_gym::subscription');
+        return $user->can('force_delete_gym::pelanggan');
     }
 
     /**
@@ -71,7 +71,7 @@ class GymSubscriptionPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_gym::subscription');
+        return $user->can('force_delete_any_gym::pelanggan');
     }
 
     /**
@@ -79,7 +79,7 @@ class GymSubscriptionPolicy
      */
     public function restore(User $user, GymSubscription $gymSubscription): bool
     {
-        return $user->can('restore_gym::subscription');
+        return $user->can('restore_gym::pelanggan');
     }
 
     /**
@@ -87,7 +87,7 @@ class GymSubscriptionPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_gym::subscription');
+        return $user->can('restore_any_gym::pelanggan');
     }
 
     /**
@@ -95,7 +95,7 @@ class GymSubscriptionPolicy
      */
     public function replicate(User $user, GymSubscription $gymSubscription): bool
     {
-        return $user->can('replicate_gym::subscription');
+        return $user->can('replicate_gym::pelanggan');
     }
 
     /**
@@ -103,6 +103,6 @@ class GymSubscriptionPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_gym::subscription');
+        return $user->can('reorder_gym::pelanggan');
     }
 }

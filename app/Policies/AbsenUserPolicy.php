@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Absensi;
+use App\Models\AbsenUser;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class AbsensiPolicy
+class AbsenUserPolicy
 {
     use HandlesAuthorization;
 
@@ -21,7 +21,7 @@ class AbsensiPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Absensi $absensi): bool
+    public function view(User $user, AbsenUser $absenUser): bool
     {
         return $user->can('view_absen::karyawan');
     }
@@ -37,7 +37,7 @@ class AbsensiPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Absensi $absensi): bool
+    public function update(User $user, AbsenUser $absenUser): bool
     {
         return $user->can('update_absen::karyawan');
     }
@@ -45,7 +45,7 @@ class AbsensiPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Absensi $absensi): bool
+    public function delete(User $user, AbsenUser $absenUser): bool
     {
         return $user->can('delete_absen::karyawan');
     }
@@ -61,7 +61,7 @@ class AbsensiPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Absensi $absensi): bool
+    public function forceDelete(User $user, AbsenUser $absenUser): bool
     {
         return $user->can('force_delete_absen::karyawan');
     }
@@ -77,7 +77,7 @@ class AbsensiPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Absensi $absensi): bool
+    public function restore(User $user, AbsenUser $absenUser): bool
     {
         return $user->can('restore_absen::karyawan');
     }
@@ -93,7 +93,7 @@ class AbsensiPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Absensi $absensi): bool
+    public function replicate(User $user, AbsenUser $absenUser): bool
     {
         return $user->can('replicate_absen::karyawan');
     }

@@ -15,22 +15,19 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\GymSubscriptionResource\Pages;
 use App\Filament\Resources\GymSubscriptionResource\RelationManagers;
+use App\Models\ManajemenGymSubscription;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class GymSubscriptionResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole('Manajer');
-    }
-    protected static ?string $model = GymSubscription::class;
+    protected static ?string $model = ManajemenGymSubscription::class;
 
-    protected static ?string $pluralModelLabel = 'Membership';
+    protected static ?string $pluralModelLabel = 'Manajemen Membership';
 
-    protected static ?string $modelLabel = 'Membership';
+    protected static ?string $modelLabel = 'Manajemen Membership';
 
-    protected static ?string $navigationLabel = 'Membership';
+    protected static ?string $navigationLabel = 'Manajemen Membership';
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
@@ -56,7 +53,7 @@ class GymSubscriptionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(GymSubscription::where('status', 'aktif'))
+            ->query(ManajemenGymSubscription::where('status', 'aktif'))
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable()

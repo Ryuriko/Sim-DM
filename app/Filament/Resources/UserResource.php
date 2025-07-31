@@ -22,18 +22,14 @@ use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
 {
-    public static function canAccess(): bool
-    {
-        return auth()->user()?->hasRole('Manajer');
-    }
 
     protected static ?string $model = User::class;
 
-    protected static ?string $pluralModelLabel = 'Karyawan';
+    protected static ?string $pluralModelLabel = 'Manajemen Karyawan';
 
-    protected static ?string $modelLabel = 'Karyawan';
+    protected static ?string $modelLabel = 'Manajemen Karyawan';
 
-    protected static ?string $navigationLabel = 'Karyawan';
+    protected static ?string $navigationLabel = 'Manajemen Karyawan';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 

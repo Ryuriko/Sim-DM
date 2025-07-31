@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AbsensiResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AbsensiResource\RelationManagers;
+use App\Models\ManajemenAbsensi;
 use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Enums\FiltersLayout;
@@ -23,13 +24,13 @@ use Filament\Tables\Filters\Filter;
 
 class AbsensiResource extends Resource
 {
-    protected static ?string $model = Absensi::class;
+    protected static ?string $model = ManajemenAbsensi::class;
 
-    protected static ?string $pluralModelLabel = 'Absensi';
+    protected static ?string $pluralModelLabel = 'Manajemen Absensi';
 
-    protected static ?string $modelLabel = 'Absensi';
+    protected static ?string $modelLabel = 'Manajemen Absensi';
 
-    protected static ?string $navigationLabel = 'Absensi';
+    protected static ?string $navigationLabel = 'Manajemen Absensi';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
@@ -112,7 +113,7 @@ class AbsensiResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->mutateRecordDataUsing(function (array $data): array {
                         $date = Session::get('filteredDate') ?? Carbon::now()->toDateString();
-                        $absensi = Absensi::where('user_id', $data['id'])->where('tgl', $date)->first();
+                        $absensi = ManajemenAbsensi::where('user_id', $data['id'])->where('tgl', $date)->first();
 
                         Session::put('user_id', $data['id']);
                         Session::put('data_id', $absensi['id']);
@@ -141,7 +142,7 @@ class AbsensiResource extends Resource
                             $arr = array_merge($arr , ['jam_masuk' => '', 'jam_keluar' => '']);
                         }
                         
-                        Absensi::find($id)->update($arr);
+                        ManajemenAbsensi::find($id)->update($arr);
                  
                         return $record;
                     }),

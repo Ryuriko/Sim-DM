@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Web\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\GymSubscription;
+use App\Models\ManajemenGymSubscription;
+use App\Models\ManajemenParkir;
+use App\Models\ManajemenReservasi;
+use App\Models\ManajemenTicket;
 use App\Models\Parkir;
 use App\Models\Reservasi;
 use App\Models\Ticket;
@@ -27,7 +31,7 @@ class TicketController extends Controller
 
         if($qrcode[0] == 'gym' || $qrcode[0] == 'gym-ots') {
             
-            $gym = GymSubscription::where('transaksi_id', $transaksi->id)->first();
+            $gym = ManajemenGymSubscription::where('transaksi_id', $transaksi->id)->first();
             $gymStart = Carbon::parse($gym->tgl_mulai);
             $gymEnd = Carbon::parse($gym->tgl_selesai);
             $today= Carbon::today();
@@ -43,7 +47,7 @@ class TicketController extends Controller
         }
         
         if($qrcode[0] == 'ticket' || $qrcode[0] == 'ticket-ots') {
-            $waterboom = Ticket::where('transaksi_id', $transaksi->id)->first();
+            $waterboom = ManajemenTicket::where('transaksi_id', $transaksi->id)->first();
             $dateWaterboom = Carbon::parse($waterboom['date']);
             if(!$dateWaterboom->isSameDay(Carbon::today())) {
                 return response()->json(['message' => 'Tiket waterboom bukan untuk hari ini!']);
@@ -52,7 +56,7 @@ class TicketController extends Controller
 
         if($qrcode[0] == 'reservasi' || $qrcode[0] == 'reservasi-ots') {
             
-            $reservasi = Reservasi::where('transaksi_id', $transaksi->id)->first();
+            $reservasi = ManajemenReservasi::where('transaksi_id', $transaksi->id)->first();
             $reservasiStart = Carbon::parse($reservasi->tgl_mulai);
             $reservasiEnd = Carbon::parse($reservasi->tgl_selesai);
             $today= Carbon::today();
@@ -62,7 +66,7 @@ class TicketController extends Controller
         }
 
         if($qrcode[0] == 'parkir' || $qrcode[0] == 'parkir-ots') {
-            $waterboom = Parkir::where('transaksi_id', $transaksi->id)->first();
+            $waterboom = ManajemenParkir::where('transaksi_id', $transaksi->id)->first();
             $dateWaterboom = Carbon::parse($waterboom['date']);
             if(!$dateWaterboom->isSameDay(Carbon::today())) {
                 return response()->json(['message' => 'Tiket parkir bukan untuk hari ini!']);
